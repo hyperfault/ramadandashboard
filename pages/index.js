@@ -335,22 +335,41 @@ export default function Home() {
           color: var(--text);
           font-family: 'Cormorant Garamond', Georgia, serif;
           overflow: hidden;
+          background: #000;
         }
 
-        /* ── Two-column layout ── */
+        /* ── Portrait kiosk: rotate entire app 90deg ── */
+        /* Browser thinks it's landscape (e.g. 1920x1080) but we rotate */
+        /* so it fills a portrait screen (e.g. 1080x1920 physical) */
+        .app-rotate {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          /* swap vw/vh so rotated content fills the portrait screen */
+          width: 100vh;
+          height: 100vw;
+          transform: translate(-50%, -50%) rotate(90deg);
+          transform-origin: center center;
+          overflow: hidden;
+        }
+
+        /* ── Two-column layout inside the rotated container ── */
+        /* Now "width" = physical screen height, "height" = physical screen width */
         .app {
           display: grid;
-          grid-template-columns: 1fr 320px;
-          width: 100vw;
-          height: 100vh;
+          /* chat panel fixed, dashboard takes rest */
+          grid-template-columns: 1fr 280px;
+          width: 100%;
+          height: 100%;
+          background: var(--navy);
         }
 
         /* ── Left panel: header / middle / ayah ── */
         .left {
           display: grid;
-          grid-template-rows: auto 1fr 140px;
-          padding: 22px 18px 18px 24px;
-          gap: 12px;
+          grid-template-rows: auto 1fr 130px;
+          padding: 18px 14px 14px 20px;
+          gap: 10px;
           overflow: hidden;
           min-width: 0;
         }
@@ -530,7 +549,7 @@ export default function Home() {
           border-left: 1.5px solid var(--border);
           display: flex;
           flex-direction: column;
-          height: 100vh;
+          height: 100%;
           background: var(--navy-mid);
           border-left: 1.5px solid var(--border);
         }
@@ -604,6 +623,7 @@ export default function Home() {
         .sbtn svg      { fill: white; }
       `}</style>
 
+      <div className="app-rotate">
       <div className="app">
 
         {/* ══════════ LEFT ══════════ */}
@@ -742,6 +762,7 @@ export default function Home() {
           </div>
         </div>
 
+      </div>
       </div>
     </>
   );

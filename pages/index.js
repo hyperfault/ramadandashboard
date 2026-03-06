@@ -61,9 +61,9 @@ function getPrayerCircle(prayers, now) {
   const nextFajr  = new Date(fajr.getTime()    + 24  * 3600000);
   const ishaEnd   = new Date(nextFajr.getTime() - 120 * 60000);
 
-  const BLUE  = '#d03055';
-  const RED   = '#ff2244';
-  const GREEN = '#e8607a';
+  const BLUE  = '#cc2244';
+  const RED   = '#ee1133';
+  const GREEN = '#dd4466';
 
   let label, color, from, to;
 
@@ -316,17 +316,17 @@ export default function Home() {
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-          --navy:        #160508;
-          --navy-mid:    #1f080f;
-          --navy-card:   #280c14;
-          --border:      #5c1e30;
-          --border-hi:   #9a3050;
-          --text:        #fff0f3;
-          --dim:         #c07888;
-          --blue:        #d03055;
-          --gold:        #ffb0c5;
-          --red:         #ff2244;
-          --green:       #e8607a;
+          --navy:        #fff5f7;
+          --navy-mid:    #ffe8ed;
+          --navy-card:   #ffffff;
+          --border:      #f0b0be;
+          --border-hi:   #e05070;
+          --text:        #2a0810;
+          --dim:         #a04060;
+          --blue:        #cc2244;
+          --gold:        #cc1133;
+          --red:         #ee1133;
+          --green:       #dd4466;
         }
 
         html, body {
@@ -532,6 +532,7 @@ export default function Home() {
           flex-direction: column;
           height: 100vh;
           background: var(--navy-mid);
+          border-left: 1.5px solid var(--border);
         }
         .msgs {
           flex: 1;
@@ -649,7 +650,7 @@ export default function Home() {
               <div className="circle-card">
                 <div className="cwrap">
                   <svg width="148" height="148" viewBox="0 0 148 148">
-                    <circle cx="74" cy="74" r={R} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="9" />
+                    <circle cx="74" cy="74" r={R} fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="9" />
                     <circle
                       cx="74" cy="74" r={R}
                       fill="none"

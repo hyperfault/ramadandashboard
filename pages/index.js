@@ -58,12 +58,12 @@ function getPrayerCircle(prayers, now) {
   const dhuhaEnd = new Date(dhuhr.getTime()   - 20  * 60000);
   const zawal    = new Date(dhuhr.getTime()   - 10  * 60000);
   const asrRestr = new Date(maghrib.getTime() - 20  * 60000);
-  const tahajjud = new Date(isha.getTime()    + 90  * 60000);
-  const nextFajr = new Date(fajr.getTime()    + 24  * 3600000);
+  const nextFajr  = new Date(fajr.getTime()    + 24  * 3600000);
+  const ishaEnd   = new Date(nextFajr.getTime() - 120 * 60000);
 
-  const BLUE  = '#4a6eb5';
-  const RED   = '#c0392b';
-  const GREEN = '#4caf7d';
+  const BLUE  = '#d03055';
+  const RED   = '#ff2244';
+  const GREEN = '#e8607a';
 
   let label, color, from, to;
 
@@ -76,8 +76,8 @@ function getPrayerCircle(prayers, now) {
   else if (now >= asr     && now < asrRestr) { label = 'Asr';         color = BLUE;  from = asr;     to = asrRestr; }
   else if (now >= asrRestr && now < maghrib) { label = 'Restriction'; color = RED;   from = asrRestr;to = maghrib;  }
   else if (now >= maghrib && now < isha)     { label = 'Maghrib';     color = BLUE;  from = maghrib; to = isha;     }
-  else if (now >= isha    && now < tahajjud) { label = 'Isha';        color = BLUE;  from = isha;    to = tahajjud; }
-  else                                        { label = 'Tahajjud';   color = GREEN; from = tahajjud;to = nextFajr; }
+  else if (now >= isha    && now < ishaEnd)  { label = 'Isha';        color = BLUE;  from = isha;    to = ishaEnd;  }
+  else                                        { label = 'Tahajjud';   color = GREEN; from = ishaEnd; to = nextFajr; }
 
   const total    = to - from;
   const elapsed  = now - from;
@@ -225,7 +225,7 @@ export default function Home() {
   // ── Prayer circle ──
   const circle = getPrayerCircle(prayers, now);
   const { h, m, s } = msToHMS(circle.msLeft);
-  const R    = 76;
+  const R    = 72;
   const CIRC = 2 * Math.PI * R;
   const dash = CIRC * (1 - circle.progress);
 
@@ -316,17 +316,17 @@ export default function Home() {
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-          --navy:        #0d1428;
-          --navy-mid:    #141d3a;
-          --navy-card:   #182044;
-          --border:      #2a3a6e;
-          --border-hi:   #3d5499;
-          --text:        #e8eaf6;
-          --dim:         #7a8bb5;
-          --blue:        #4a6eb5;
-          --gold:        #e6c97a;
-          --red:         #c0392b;
-          --green:       #4caf7d;
+          --navy:        #160508;
+          --navy-mid:    #1f080f;
+          --navy-card:   #280c14;
+          --border:      #5c1e30;
+          --border-hi:   #9a3050;
+          --text:        #fff0f3;
+          --dim:         #c07888;
+          --blue:        #d03055;
+          --gold:        #ffb0c5;
+          --red:         #ff2244;
+          --green:       #e8607a;
         }
 
         html, body {
@@ -348,9 +348,9 @@ export default function Home() {
         /* ── Left panel: header / middle / ayah ── */
         .left {
           display: grid;
-          grid-template-rows: auto 1fr auto;
-          padding: 26px 20px 20px 28px;
-          gap: 14px;
+          grid-template-rows: auto 1fr 140px;
+          padding: 22px 18px 18px 24px;
+          gap: 12px;
           overflow: hidden;
           min-width: 0;
         }
@@ -364,8 +364,8 @@ export default function Home() {
         /* Middle row: calendar + (circle + prayer list) */
         .middle {
           display: grid;
-          grid-template-columns: 245px 1fr;
-          gap: 14px;
+          grid-template-columns: 230px 1fr;
+          gap: 12px;
           min-height: 0;
           align-items: stretch;
         }
@@ -428,8 +428,8 @@ export default function Home() {
         /* Prayer section: circle | list */
         .psec {
           display: grid;
-          grid-template-columns: 195px 1fr;
-          gap: 14px;
+          grid-template-columns: 185px 1fr;
+          gap: 12px;
           align-items: stretch;
         }
 
@@ -444,8 +444,8 @@ export default function Home() {
         }
         .cwrap {
           position: relative;
-          width: 155px;
-          height: 155px;
+          width: 148px;
+          height: 148px;
         }
         .cwrap svg { transform: rotate(-90deg); display: block; }
         .cinner {
@@ -488,7 +488,7 @@ export default function Home() {
           background: var(--navy-card);
           border: 1.5px solid var(--border);
           border-radius: 16px;
-          padding: 22px 32px;
+          padding: 14px 28px;
           text-align: center;
           display: flex;
           flex-direction: column;
@@ -502,16 +502,16 @@ export default function Home() {
           text-transform: uppercase;
           color: var(--dim);
           font-weight: 700;
-          margin-bottom: 14px;
+          margin-bottom: 8px;
         }
         .ayah-ar {
           font-family: 'Mirza', serif;
-          font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+          font-size: clamp(1.3rem, 1.9vw, 1.9rem);
           font-weight: 600;
           direction: rtl;
-          line-height: 1.75;
+          line-height: 1.6;
           color: var(--text);
-          margin-bottom: 14px;
+          margin-bottom: 8px;
         }
         .ayah-tr {
           font-style: italic;
@@ -648,10 +648,10 @@ export default function Home() {
 
               <div className="circle-card">
                 <div className="cwrap">
-                  <svg width="155" height="155" viewBox="0 0 155 155">
-                    <circle cx="77.5" cy="77.5" r={R} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="9" />
+                  <svg width="148" height="148" viewBox="0 0 148 148">
+                    <circle cx="74" cy="74" r={R} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="9" />
                     <circle
-                      cx="77.5" cy="77.5" r={R}
+                      cx="74" cy="74" r={R}
                       fill="none"
                       stroke={circle.color}
                       strokeWidth="9"

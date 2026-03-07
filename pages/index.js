@@ -34,7 +34,7 @@ const AYAH_POOL = [
 { arabic:‘لَا يُكَلِّفُ ٱللَّهُ نَفْسًا إِلَّا وُسْعَهَا’, translation:‘Allah does not burden a soul beyond that it can bear.’, ref:‘Al-Baqarah 2:286’ },
 { arabic:‘وَبَشِّرِ ٱلصَّٰبِرِينَ’, translation:‘And give good tidings to the patient.’, ref:‘Al-Baqarah 2:155’ },
 { arabic:‘إِنَّمَآ أَمْرُهُۥٓ إِذَآ أَرَادَ شَيْـًٔا أَن يَقُولَ لَهُۥ كُن فَيَكُونُ’, translation:‘His command is only that when He wills a thing, He says “Be,” and it is.’, ref:‘Ya-Sin 36:82’ },
-{ arabic:‘وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ’, translation:‘Whoever relies upon Allah — He is sufficient for him.’, ref:‘At-Talaq 65:3’ },
+{ arabic:‘وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ’, translation:‘Whoever relies upon Allah – He is sufficient for him.’, ref:‘At-Talaq 65:3’ },
 { arabic:‘وَٱعْلَمُوٓا۟ أَنَّ ٱللَّهَ مَعَ ٱلْمُتَّقِينَ’, translation:‘Know that Allah is with those who fear Him.’, ref:‘Al-Baqarah 2:194’ },
 { arabic:‘فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا’, translation:‘For indeed, with hardship will be ease.’, ref:‘Al-Inshirah 94:5’ },
 ];
@@ -552,7 +552,7 @@ String(s.number).includes(quranSearch)
 return (
 <>
 <Head>
-<title>Islamic Dashboard — Muntasir</title>
+<title>Islamic Dashboard – Muntasir</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link
 href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Color+Emoji&display=swap"
@@ -572,7 +572,7 @@ rel="stylesheet"
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Rotate wrapper — landscape layout on portrait screen */
+    /* Rotate wrapper -- landscape layout on portrait screen */
     .app-rotate {
       position: fixed;
       top: 50%; left: 50%;
@@ -1388,7 +1388,7 @@ rel="stylesheet"
                           <span className="prow-icon">{PRAYER_ICONS[p.name]}</span>
                           <span className="prow-name">{p.name}</span>
                         </div>
-                        <span className="prow-time" style={!p.time?{color:T.dim}:{}}>{p.time||'—'}</span>
+                        <span className="prow-time" style={!p.time?{color:T.dim}:{}}>{p.time||'--'}</span>
                         <div
                           className={`prow-check${prayedToday[p.name]?' done':''}`}
                           onClick={() => togglePrayed(p.name)}
@@ -1425,14 +1425,14 @@ rel="stylesheet"
                     {msg.content}
                   </div>
                 ))}
-                {chatLoading && <div className="bubble assistant loading pulse">Noor is thinking…</div>}
+                {chatLoading && <div className="bubble assistant loading pulse">Noor is thinking...</div>}
                 <div ref={chatEndRef}/>
               </div>
               <div className="inputrow">
                 <textarea
                   className="cinput"
                   rows={1}
-                  placeholder="Ask Noor anything…"
+                  placeholder="Ask Noor anything..."
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={handleKey}
@@ -1454,21 +1454,21 @@ rel="stylesheet"
                 <div className="quran-searchbar">
                   <input
                     className="qsearch"
-                    placeholder="Search surah name or number…"
+                    placeholder="Search surah name or number..."
                     value={quranSearch}
                     onChange={e => setQuranSearch(e.target.value)}
                   />
                 </div>
                 <div className="surah-list">
                   {surahs.length === 0 && (
-                    <div style={{padding:'20px',textAlign:'center',color:T.dim,fontSize:'0.82rem'}}>Loading surahs…</div>
+                    <div style={{padding:'20px',textAlign:'center',color:T.dim,fontSize:'0.82rem'}}>Loading surahs...</div>
                   )}
                   {filteredSurahs.map(s => (
                     <div key={s.number} className="surah-row" onClick={() => loadSurah(s)}>
                       <div className="surah-num">{s.number}</div>
                       <div className="surah-info">
                         <div className="surah-en">{s.englishName}</div>
-                        <div className="surah-meta">{s.englishNameTranslation} · {s.numberOfAyahs} verses · {s.revelationType}</div>
+                        <div className="surah-meta">{s.englishNameTranslation}  .  {s.numberOfAyahs} verses  .  {s.revelationType}</div>
                       </div>
                       <div className="surah-ar">{s.name}</div>
                     </div>
@@ -1481,12 +1481,12 @@ rel="stylesheet"
                   <button className="back-btn" onClick={() => { setQuranView('list'); setSurahVerses([]); }}>◂ Back</button>
                   <div style={{flex:1}}>
                     <div style={{fontSize:'0.9rem',fontWeight:700,color:T.text}}>{selSurah?.englishName}</div>
-                    <div style={{fontSize:'0.68rem',color:T.dim}}>{selSurah?.numberOfAyahs} verses · {selSurah?.revelationType}</div>
+                    <div style={{fontSize:'0.68rem',color:T.dim}}>{selSurah?.numberOfAyahs} verses  .  {selSurah?.revelationType}</div>
                   </div>
                   <div style={{fontFamily:"'Amiri', serif", fontSize:'1.3rem', color:T.accent}}>{selSurah?.name}</div>
                 </div>
                 <div className="verses-list">
-                  {quranLoading && <div style={{textAlign:'center',padding:'20px',color:T.dim,fontSize:'0.82rem'}}>Loading verses…</div>}
+                  {quranLoading && <div style={{textAlign:'center',padding:'20px',color:T.dim,fontSize:'0.82rem'}}>Loading verses...</div>}
                   {/* Bismillah header for all surahs except Al-Fatiha (1) and At-Tawbah (9) */}
                   {!quranLoading && selSurah?.number !== 1 && selSurah?.number !== 9 && (
                     <div style={{textAlign:'center', fontFamily:"'Amiri', serif", fontSize:'1.4rem', color:T.accent, padding:'12px 0 8px', borderBottom:`1px solid ${T.dim}22`, marginBottom:'8px'}}>
@@ -1527,12 +1527,12 @@ rel="stylesheet"
               <div className="tasbih-label">Digital Tasbih</div>
               <div className="tasbih-dhikr">{tasbeehLabel}</div>
               <div className={`tasbih-count${tasbeehFlash?' flash':''}`}>{tasbeehCount}</div>
-              <div className="tasbih-target">Target: {tasbeehTarget} · Sets: {Math.floor(tasbeehCount/tasbeehTarget)}</div>
+              <div className="tasbih-target">Target: {tasbeehTarget}  .  Sets: {Math.floor(tasbeehCount/tasbeehTarget)}</div>
               <button className="tasbih-tap-btn" onClick={tapTasbih}>TAP</button>
               <div className="tasbih-controls">
                 <button className="tasbih-ctrl-btn" onClick={resetTasbih}>Reset</button>
                 <button className="tasbih-ctrl-btn" onClick={() => setTasbeehTarget(t => t===33?99:t===99?100:33)}>
-                  {tasbeehTarget}×
+                  {tasbeehTarget}x
                 </button>
               </div>
             </div>
@@ -1542,7 +1542,7 @@ rel="stylesheet"
               <div className="section-title">Hadith of the Day</div>
               <div className="hadith-card">
                 <div className="hadith-text">"{hadith.text}"</div>
-                <div className="hadith-src">— {hadith.source}</div>
+                <div className="hadith-src">-- {hadith.source}</div>
               </div>
 
               <div className="section-title">Qibla Direction</div>
@@ -1551,8 +1551,8 @@ rel="stylesheet"
                   <span className="qibla-arrow">🧭</span>
                 </div>
                 <div className="qibla-info">
-                  <div className="qibla-deg">{DHAKA_QIBLA}°</div>
-                  <div className="qibla-label">from Dhaka, Bangladesh<br/>Face {DHAKA_QIBLA}° from North</div>
+                  <div className="qibla-deg">{DHAKA_QIBLA} deg</div>
+                  <div className="qibla-label">from Dhaka, Bangladesh<br/>Face {DHAKA_QIBLA} deg from North</div>
                 </div>
               </div>
 
@@ -1606,7 +1606,7 @@ rel="stylesheet"
             <div className="settings-row">
               <div>
                 <div className="settings-label">Theme</div>
-                <div className="settings-sub">{isDark ? 'Dark mode — blends with bezels' : 'Light mode'}</div>
+                <div className="settings-sub">{isDark ? 'Dark mode -- blends with bezels' : 'Light mode'}</div>
               </div>
               <button className="toggle" onClick={() => setTheme(t => t==='dark'?'light':'dark')}/>
             </div>
@@ -1629,7 +1629,7 @@ rel="stylesheet"
                 <div className="settings-label">Qibla Direction</div>
                 <div className="settings-sub">From Dhaka</div>
               </div>
-              <div className="settings-value">{DHAKA_QIBLA}° N</div>
+              <div className="settings-value">{DHAKA_QIBLA} deg N</div>
             </div>
             <div className="settings-row">
               <div>

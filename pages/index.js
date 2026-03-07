@@ -1487,7 +1487,7 @@ export default function Home() {
                     <div className="verses-list">
                       {quranLoading && <div style={{textAlign:'center',padding:'20px',color:T.dim,fontSize:'0.82rem'}}>Loading verses...</div>}
                       {/* Bismillah header for all surahs except Al-Fatiha (1) and At-Tawbah (9) */}
-                      {!quranLoading && selSurah?.number !== 1 && selSurah?.number !== 9 && (
+                      {(!quranLoading) && (selSurah?.number !== 1) && (selSurah?.number !== 9) && (
                         <div style={{textAlign:'center', fontFamily:"'Amiri', serif", fontSize:'1.4rem', color:T.accent, padding:'12px 0 8px', borderBottom:`1px solid ${T.dim}22`, marginBottom:'8px'}}>
                           بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
                         </div>
@@ -1501,7 +1501,7 @@ export default function Home() {
                         .map(v => (
                         <div key={v.number} className="verse-card">
                           <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px'}}>
-                            <div className="verse-num">{v.number}</div>
+                            <div className="verse-num">{selSurah?.number !== 1 && selSurah?.number !== 9 ? v.number - 1 : v.number}</div>
                           </div>
                           <div className="verse-arabic">{v.arabic}</div>
                           <div className="verse-en">{v.english}</div>

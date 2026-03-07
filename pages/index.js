@@ -14,7 +14,7 @@ const HIJRI_MONTHS = [
   'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah',
 ];
 
-const PRAYER_ICONS = { Fajr:'🌅', Dhuhr:'☀️', Asr:'🌤️', Maghrib:'🌇', Isha:'🌙' };
+const PRAYER_ICONS = { Fajr:'*', Dhuhr:'*', Asr:'*', Maghrib:'*', Isha:'*' };
 
 const AYAH_POOL = [
   { arabic:'إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا', translation:'Indeed, with hardship will be ease.', ref:'Al-Inshirah 94:6' },
@@ -74,7 +74,7 @@ const HADITHS = [
 function pad(n) { return String(n).padStart(2, '0'); }
 
 function getDhakaTime() {
-  return new Date(new Date().toLocaleString('en-US', { timeZone: DHAKA.tz }));
+  return new Date();
 }
 
 function formatTime(date) {
@@ -118,20 +118,20 @@ function getDailyHadith() {
 
 function getIslamicContext(hijriMonth, hijriDay) {
   const map = {
-    '1-1':  { label:'Islamic New Year 🌙', color:'#7c3aed' },
-    '1-10': { label:'Day of Ashura 🤲', color:'#6366f1' },
-    '3-12': { label:'Mawlid al-Nabi ﷺ 💚', color:'#059669' },
-    '7-27': { label:"Isra' wal Mi'raj ✨", color:'#d97706' },
-    '8-15': { label:"Laylat al-Bara'ah 🌟", color:'#d97706' },
-    '9-1':  { label:'Ramadan Mubarak 🌙', color:'#be185d' },
-    '9-21': { label:'Laylat al-Qadr could be tonight ⭐', color:'#d97706' },
-    '9-23': { label:'Laylat al-Qadr could be tonight ⭐', color:'#d97706' },
-    '9-25': { label:'Laylat al-Qadr could be tonight ⭐', color:'#d97706' },
-    '9-27': { label:'Most likely Laylat al-Qadr ⭐', color:'#f59e0b' },
-    '9-29': { label:'Laylat al-Qadr could be tonight ⭐', color:'#d97706' },
-    '10-1': { label:'Eid al-Fitr Mubarak 🎉', color:'#059669' },
-    '12-9': { label:'Day of Arafah 🤲', color:'#d97706' },
-    '12-10':{ label:'Eid al-Adha Mubarak 🎉', color:'#059669' },
+    '1-1':  { label:'Islamic New Year', color:'#7c3aed' },
+    '1-10': { label:'Day of Ashura', color:'#6366f1' },
+    '3-12': { label:'Mawlid al-Nabi (s.a.w)', color:'#059669' },
+    '7-27': { label:"Isra' wal Mi'raj", color:'#d97706' },
+    '8-15': { label:"Laylat al-Bara'ah", color:'#d97706' },
+    '9-1':  { label:'Ramadan Mubarak', color:'#be185d' },
+    '9-21': { label:'Laylat al-Qadr could be tonight', color:'#d97706' },
+    '9-23': { label:'Laylat al-Qadr could be tonight', color:'#d97706' },
+    '9-25': { label:'Laylat al-Qadr could be tonight', color:'#d97706' },
+    '9-27': { label:'Most likely Laylat al-Qadr', color:'#f59e0b' },
+    '9-29': { label:'Laylat al-Qadr could be tonight', color:'#d97706' },
+    '10-1': { label:'Eid al-Fitr Mubarak', color:'#059669' },
+    '12-9': { label:'Day of Arafah', color:'#d97706' },
+    '12-10':{ label:'Eid al-Adha Mubarak', color:'#059669' },
   };
   return map[`${hijriMonth}-${hijriDay}`] || null;
 }
@@ -555,7 +555,7 @@ export default function Home() {
         <title>Islamic Dashboard — Muntasir</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Color+Emoji&display=swap"
           rel="stylesheet"
         />
       </Head>
@@ -1289,7 +1289,7 @@ export default function Home() {
               <div className="topbar-greeting">As-salamu alaykum, Muntasir</div>
               <div className="topbar-clock">{formatTime(now)}</div>
               <div className="topbar-date">{formatDate(now)}</div>
-              {hijriLabel && <div className="topbar-hijri">🌙 {hijriLabel}</div>}
+              {hijriLabel && <div className="topbar-hijri">{hijriLabel}</div>}
             </div>
             <div className="topbar-right">
               <button className="icon-btn" onClick={() => setTheme(t => t==='dark'?'light':'dark')} title="Toggle theme">
@@ -1312,7 +1312,7 @@ export default function Home() {
           {ramadanInfo && (
             <div className="ramadan-bar">
               <div className="ramadan-day">
-                🌙 Ramadan Day {ramadanInfo.day}
+                Ramadan Day {ramadanInfo.day}
                 {ramadanInfo.isLastTen && ' • Last 10 Nights'}
                 {ramadanInfo.isOddNight && ' ⭐'}
               </div>
@@ -1402,7 +1402,7 @@ export default function Home() {
 
                   {/* Ayah */}
                   <div className="ayah-card">
-                    <div className="ayah-lbl">✦ Verse of the Day ✦</div>
+                    <div className="ayah-lbl">Verse of the Day</div>
                     <div className="ayah-ar">{ayah.arabic}</div>
                     <div className="ayah-tr">{ayah.translation}</div>
                     <div className="ayah-ref">{ayah.ref}</div>
@@ -1412,7 +1412,7 @@ export default function Home() {
                 {/* RIGHT = CHAT */}
                 <div className="home-right">
                   <div className="chat-header">
-                    <div className="chat-avatar">🌙</div>
+                    <div className="chat-avatar">N</div>
                     <div>
                       <div className="chat-title">Noor</div>
                       <div className="chat-sub">● Online</div>
@@ -1486,7 +1486,15 @@ export default function Home() {
                     </div>
                     <div className="verses-list">
                       {quranLoading && <div style={{textAlign:'center',padding:'20px',color:T.dim,fontSize:'0.82rem'}}>Loading verses…</div>}
-                      {surahVerses.map(v => (
+                      {/* Bismillah header for all surahs except Al-Fatiha (1) and At-Tawbah (9) */}
+                      {!quranLoading && selSurah?.number !== 1 && selSurah?.number !== 9 && (
+                        <div style={{textAlign:'center', fontFamily:"'Amiri', serif", fontSize:'1.4rem', color:T.accent, padding:'12px 0 8px', borderBottom:`1px solid ${T.dim}22`, marginBottom:'8px'}}>
+                          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                        </div>
+                      )}
+                      {surahVerses
+                        .filter(v => selSurah?.number !== 1 ? v.number !== 1 || !v.arabic.startsWith('بِسْمِ') : true)
+                        .map(v => (
                         <div key={v.number} className="verse-card">
                           <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px'}}>
                             <div className="verse-num">{v.number}</div>
@@ -1519,7 +1527,7 @@ export default function Home() {
                   <div className="tasbih-dhikr">{tasbeehLabel}</div>
                   <div className={`tasbih-count${tasbeehFlash?' flash':''}`}>{tasbeehCount}</div>
                   <div className="tasbih-target">Target: {tasbeehTarget} · Sets: {Math.floor(tasbeehCount/tasbeehTarget)}</div>
-                  <button className="tasbih-tap-btn" onClick={tapTasbih}>🤲</button>
+                  <button className="tasbih-tap-btn" onClick={tapTasbih}>TAP</button>
                   <div className="tasbih-controls">
                     <button className="tasbih-ctrl-btn" onClick={resetTasbih}>Reset</button>
                     <button className="tasbih-ctrl-btn" onClick={() => setTasbeehTarget(t => t===33?99:t===99?100:33)}>
@@ -1657,11 +1665,11 @@ export default function Home() {
           {/* ── BOTTOM NAV ── */}
           <div className="bottomnav">
             {[
-              { id:'home',     icon:'🕌', label:'Home'    },
-              { id:'quran',    icon:'📖', label:'Quran'   },
-              { id:'dhikr',    icon:'📿', label:'Dhikr'   },
-              { id:'duas',     icon:'🤲', label:'Du\'as'  },
-              { id:'settings', icon:'⚙️',  label:'Settings'},
+              { id:'home',     icon:'~', label:'Home'    },
+              { id:'quran',    icon:'Q', label:'Quran'   },
+              { id:'dhikr',    icon:'O', label:'Dhikr'   },
+              { id:'duas',     icon:'+', label:'Du\'as'  },
+              { id:'settings', icon:'=', label:'Settings'},
             ].map(tab => (
               <div
                 key={tab.id}

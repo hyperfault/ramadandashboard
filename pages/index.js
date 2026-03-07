@@ -1493,7 +1493,11 @@ export default function Home() {
                         </div>
                       )}
                       {surahVerses
-                        .filter(v => selSurah?.number !== 1 ? v.number !== 1 : true)
+                        .filter(v => {
+                          if (selSurah?.number === 1 || selSurah?.number === 9) return true;
+                          if (v.number === 1 && v.arabic && v.arabic.startsWith('بِسْم')) return false;
+                          return true;
+                        })
                         .map(v => (
                         <div key={v.number} className="verse-card">
                           <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px'}}>

@@ -52,6 +52,59 @@ const DUAS = [
   { title: 'Morning Dhikr', arabic: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ', translation: 'We have entered the morning and the dominion belongs to Allah, and all praise is due to Allah.' },
 ];
 
+
+const RABBANA_DUAS = [
+  { title: 'Rabbana 1', ref: 'Al-Baqarah 2:127', arabic: 'رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ', translation: 'Our Lord, accept from us. Indeed You are the Hearing, the Knowing.' },
+  { title: 'Rabbana 2', ref: 'Al-Baqarah 2:128', arabic: 'رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ لَكَ وَمِن ذُرِّيَّتِنَا أُمَّةً مُّسْلِمَةً لَّكَ', translation: 'Our Lord, make us Muslims submitting to You, and from our descendants a Muslim nation submitting to You.' },
+  { title: 'Rabbana 3', ref: 'Al-Baqarah 2:201', arabic: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', translation: 'Our Lord, give us good in this world and good in the Hereafter and protect us from the punishment of the Fire.' },
+  { title: 'Rabbana 4', ref: 'Al-Baqarah 2:250', arabic: 'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ', translation: 'Our Lord, pour upon us patience and plant firmly our feet and give us victory over the disbelieving people.' },
+  { title: 'Rabbana 5', ref: 'Al-Baqarah 2:286', arabic: 'رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا', translation: 'Our Lord, do not impose blame upon us if we forget or make error.' },
+  { title: 'Rabbana 6', ref: 'Al-Baqarah 2:286', arabic: 'رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا', translation: 'Our Lord, do not burden us as You burdened those before us.' },
+  { title: 'Rabbana 7', ref: 'Al-Baqarah 2:286', arabic: 'رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا', translation: 'Our Lord, do not burden us with that which we have no ability to bear. Pardon us, forgive us, and have mercy upon us.' },
+  { title: 'Rabbana 8', ref: 'Al-Imran 3:8', arabic: 'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً', translation: 'Our Lord, do not let our hearts deviate after You have guided us and grant us from Yourself mercy.' },
+  { title: 'Rabbana 9', ref: 'Al-Imran 3:9', arabic: 'رَبَّنَا إِنَّكَ جَامِعُ النَّاسِ لِيَوْمٍ لَّا رَيْبَ فِيهِ إِنَّ اللَّهَ لَا يُخْلِفُ الْمِيعَادَ', translation: 'Our Lord, surely You will gather the people for a Day about which there is no doubt. Indeed, Allah does not fail in His promise.' },
+  { title: 'Rabbana 10', ref: 'Al-Imran 3:16', arabic: 'رَبَّنَا إِنَّنَا آمَنَّا فَاغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ النَّارِ', translation: 'Our Lord, indeed we have believed, so forgive us our sins and protect us from the punishment of the Fire.' },
+  { title: 'Rabbana 11', ref: 'Al-Imran 3:53', arabic: 'رَبَّنَا آمَنَّا بِمَا أَنزَلْتَ وَاتَّبَعْنَا الرَّسُولَ فَاكْتُبْنَا مَعَ الشَّاهِدِينَ', translation: 'Our Lord, we have believed in what You revealed and have followed the messenger, so register us among the witnesses.' },
+  { title: 'Rabbana 12', ref: 'Al-Imran 3:147', arabic: 'رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ', translation: 'Our Lord, forgive us our sins and our excess in our affairs, and plant firmly our feet and give us victory over the disbelieving people.' },
+  { title: 'Rabbana 13', ref: 'Al-Imran 3:191', arabic: 'رَبَّنَا مَا خَلَقْتَ هَذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ', translation: 'Our Lord, You did not create this without purpose; glory be to You! So protect us from the punishment of the Fire.' },
+  { title: 'Rabbana 14', ref: 'Al-Imran 3:192', arabic: 'رَبَّنَا إِنَّكَ مَن تُدْخِلِ النَّارَ فَقَدْ أَخْزَيْتَهُ وَمَا لِلظَّالِمِينَ مِنْ أَنصَارٍ', translation: 'Our Lord, indeed whoever You admit to the Fire, You have disgraced him, and for wrongdoers there are no helpers.' },
+  { title: 'Rabbana 15', ref: 'Al-Imran 3:193', arabic: 'رَبَّنَا إِنَّنَا سَمِعْنَا مُنَادِيًا يُنَادِي لِلْإِيمَانِ أَنْ آمِنُوا بِرَبِّكُمْ فَآمَنَّا', translation: 'Our Lord, indeed we have heard a caller calling to faith, saying: Believe in your Lord, and we have believed.' },
+  { title: 'Rabbana 16', ref: 'Al-Imran 3:194', arabic: 'رَبَّنَا وَآتِنَا مَا وَعَدتَّنَا عَلَى رُسُلِكَ وَلَا تُخْزِنَا يَوْمَ الْقِيَامَةِ', translation: 'Our Lord, grant us what You promised us through Your messengers and do not disgrace us on the Day of Resurrection.' },
+  { title: 'Rabbana 17', ref: 'An-Nisa 4:75', arabic: 'رَبَّنَا أَخْرِجْنَا مِنْ هَذِهِ الْقَرْيَةِ الظَّالِمِ أَهْلُهَا وَاجْعَل لَّنَا مِن لَّدُنكَ وَلِيًّا', translation: 'Our Lord, take us out of this city of oppressive people and appoint for us from Yourself a protector.' },
+  { title: 'Rabbana 18', ref: 'Al-Maida 5:83', arabic: 'رَبَّنَا آمَنَّا فَاكْتُبْنَا مَعَ الشَّاهِدِينَ', translation: 'Our Lord, we have believed, so register us among the witnesses.' },
+  { title: 'Rabbana 19', ref: 'Al-Araf 7:23', arabic: 'رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ', translation: 'Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers.' },
+  { title: 'Rabbana 20', ref: 'Al-Araf 7:47', arabic: 'رَبَّنَا لَا تَجْعَلْنَا مَعَ الْقَوْمِ الظَّالِمِينَ', translation: 'Our Lord, do not place us with the wrongdoing people.' },
+  { title: 'Rabbana 21', ref: 'Yunus 10:85-86', arabic: 'رَبَّنَا لَا تَجْعَلْنَا فِتْنَةً لِّلْقَوْمِ الظَّالِمِينَ وَنَجِّنَا بِرَحْمَتِكَ مِنَ الْقَوْمِ الْكَافِرِينَ', translation: 'Our Lord, do not make us a trial for the wrongdoing people. And save us by Your mercy from the disbelieving people.' },
+  { title: 'Rabbana 22', ref: 'Ibrahim 14:38', arabic: 'رَبَّنَا إِنَّكَ تَعْلَمُ مَا نُخْفِي وَمَا نُعْلِنُ وَمَا يَخْفَى عَلَى اللَّهِ مِن شَيْءٍ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ', translation: 'Our Lord, indeed You know what we conceal and what we declare, and nothing is hidden from Allah on earth or in the heaven.' },
+  { title: 'Rabbana 23', ref: 'Ibrahim 14:40', arabic: 'رَبَّنَا وَاجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ', translation: 'Our Lord, make me an establisher of prayer, and from my descendants. Our Lord, and accept my supplication.' },
+  { title: 'Rabbana 24', ref: 'Ibrahim 14:41', arabic: 'رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ', translation: 'Our Lord, forgive me and my parents and the believers the Day the account is established.' },
+  { title: 'Rabbana 25', ref: 'Al-Kahf 18:10', arabic: 'رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا', translation: 'Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.' },
+  { title: 'Rabbana 26', ref: 'Ta-Ha 20:45', arabic: 'رَبَّنَا إِنَّنَا نَخَافُ أَن يَفْرُطَ عَلَيْنَا أَوْ أَن يَطْغَى', translation: 'Our Lord, indeed we are afraid that he will hasten against us or that he will transgress.' },
+  { title: 'Rabbana 27', ref: 'Al-Muminun 23:97-98', arabic: 'رَّبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَعُوذُ بِكَ رَبِّ أَن يَحْضُرُونِ', translation: 'My Lord, I seek refuge in You from the incitements of the devils, and I seek refuge in You, my Lord, lest they be present with me.' },
+  { title: 'Rabbana 28', ref: 'Al-Furqan 25:65', arabic: 'رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ إِنَّ عَذَابَهَا كَانَ غَرَامًا', translation: 'Our Lord, avert from us the punishment of Hell. Indeed its punishment is ever adhering.' },
+  { title: 'Rabbana 29', ref: 'Al-Furqan 25:74', arabic: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا', translation: 'Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.' },
+  { title: 'Rabbana 30', ref: 'Ash-Shuara 26:83-85', arabic: 'رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ وَاجْعَل لِّي لِسَانَ صِدْقٍ فِي الْآخِرِينَ', translation: 'My Lord, grant me wisdom and join me with the righteous. And grant me a reputation of honor among later generations.' },
+  { title: 'Rabbana 31', ref: 'An-Naml 27:19', arabic: 'رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ', translation: 'My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents.' },
+  { title: 'Rabbana 32', ref: 'Al-Qasas 28:16', arabic: 'رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي', translation: 'My Lord, indeed I have wronged myself, so forgive me.' },
+  { title: 'Rabbana 33', ref: 'Al-Ankabut 29:30', arabic: 'رَبِّ انصُرْنِي عَلَى الْقَوْمِ الْمُفْسِدِينَ', translation: 'My Lord, support me against the corrupting people.' },
+  { title: 'Rabbana 34', ref: 'Ghafir 40:7-8', arabic: 'رَبَّنَا وَسِعْتَ كُلَّ شَيْءٍ رَّحْمَةً وَعِلْمًا فَاغْفِرْ لِلَّذِينَ تَابُوا وَاتَّبَعُوا سَبِيلَكَ', translation: 'Our Lord, You have encompassed all things in mercy and knowledge, so forgive those who have repented and followed Your way.' },
+  { title: 'Rabbana 35', ref: 'Ghafir 40:9', arabic: 'رَبَّنَا وَأَدْخِلْهُمْ جَنَّاتِ عَدْنٍ الَّتِي وَعَدتَّهُمْ وَمَن صَلَحَ مِنْ آبَائِهِمْ وَأَزْوَاجِهِمْ وَذُرِّيَّاتِهِمْ', translation: 'Our Lord, and admit them to gardens of perpetual residence which You have promised them, and whoever was righteous among their fathers, their spouses and their offspring.' },
+  { title: 'Rabbana 36', ref: 'Ash-Shura 42:10', arabic: 'رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا وَارْحَمْنَا وَأَنتَ خَيْرُ الرَّاحِمِينَ', translation: 'Our Lord, we have believed, so forgive us and have mercy upon us, and You are the best of the merciful.' },
+  { title: 'Rabbana 37', ref: 'Ad-Dukhan 44:12', arabic: 'رَبَّنَا اكْشِفْ عَنَّا الْعَذَابَ إِنَّا مُؤْمِنُونَ', translation: 'Our Lord, remove from us the torment; indeed we are believers.' },
+  { title: 'Rabbana 38', ref: 'Al-Ahqaf 46:15', arabic: 'رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ', translation: 'My Lord, enable me to be grateful for Your favor which You have bestowed upon me and my parents and to do righteousness of which You approve.' },
+  { title: 'Rabbana 39', ref: 'Al-Hashr 59:10', arabic: 'رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ وَلَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا لِّلَّذِينَ آمَنُوا', translation: 'Our Lord, forgive us and our brothers who preceded us in faith, and put not in our hearts any resentment toward those who have believed.' },
+  { title: 'Rabbana 40', ref: 'Al-Mumtahina 60:4-5', arabic: 'رَبَّنَا عَلَيْكَ تَوَكَّلْنَا وَإِلَيْكَ أَنَبْنَا وَإِلَيْكَ الْمَصِيرُ رَبَّنَا لَا تَجْعَلْنَا فِتْنَةً لِّلَّذِينَ كَفَرُوا', translation: 'Our Lord, upon You we have relied, and to You we have returned, and to You is the destination. Our Lord, make us not a trial for those who disbelieve.' },
+];
+
+// Dua audio URLs (Mishary Alafasy from everyayah.com CDN)
+const DUA_AUDIO_URLS = [
+  'https://cdn.islamic.network/quran/audio/128/ar.alafasy/2.mp3',
+  'https://cdn.islamic.network/quran/audio/128/ar.alafasy/3.mp3',
+  'https://cdn.islamic.network/quran/audio/128/ar.alafasy/4.mp3',
+  'https://cdn.islamic.network/quran/audio/128/ar.alafasy/5.mp3',
+  'https://cdn.islamic.network/quran/audio/128/ar.alafasy/6.mp3',
+];
+
 const HADITHS = [
   { text: "The best of people are those who are most beneficial to people.", source: "Al-Mu'jam al-Awsat" },
   { text: "Whoever believes in Allah and the Last Day, let him speak good or remain silent.", source: "Bukhari & Muslim" },
@@ -65,6 +118,49 @@ const HADITHS = [
   { text: "The world is a prison for the believer and a paradise for the unbeliever.", source: "Muslim" },
   { text: "Allah does not look at your forms and your possessions; rather, He looks at your hearts and your deeds.", source: "Muslim" },
   { text: "Feed the hungry, visit the sick, and free the captive.", source: "Bukhari" },
+];
+
+const RABBANA_DUAS = [
+  { arabic: 'رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ', translation: 'Our Lord, accept from us. Indeed You are the Hearing, the Knowing.', ref: '2:127' },
+  { arabic: 'رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ لَكَ وَمِن ذُرِّيَّتِنَا أُمَّةً مُّسْلِمَةً لَّكَ', translation: 'Our Lord, make us Muslims submitting to You, and from our descendants a Muslim nation.', ref: '2:128' },
+  { arabic: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', translation: 'Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of Fire.', ref: '2:201' },
+  { arabic: 'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ', translation: 'Our Lord, pour upon us patience and plant firmly our feet and give us victory over the disbelieving people.', ref: '2:250' },
+  { arabic: 'رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا', translation: 'Our Lord, do not impose blame upon us if we forget or make a mistake.', ref: '2:286' },
+  { arabic: 'رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا', translation: 'Our Lord, do not burden us as You burdened those before us.', ref: '2:286' },
+  { arabic: 'رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا', translation: 'Our Lord, do not burden us with that which we have no ability to bear. Pardon us, forgive us, and have mercy upon us.', ref: '2:286' },
+  { arabic: 'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً', translation: 'Our Lord, let not our hearts deviate after You have guided us, and grant us mercy from Yourself.', ref: '3:8' },
+  { arabic: 'رَبَّنَا إِنَّكَ جَامِعُ النَّاسِ لِيَوْمٍ لَّا رَيْبَ فِيهِ إِنَّ اللَّهَ لَا يُخْلِفُ الْمِيعَادَ', translation: 'Our Lord, surely You will gather the people for a Day about which there is no doubt. Indeed, Allah does not fail in His promise.', ref: '3:9' },
+  { arabic: 'رَبَّنَا إِنَّنَا آمَنَّا فَاغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ النَّارِ', translation: 'Our Lord, indeed we have believed, so forgive us our sins and protect us from the punishment of Fire.', ref: '3:16' },
+  { arabic: 'رَبَّنَا آمَنَّا بِمَا أَنزَلْتَ وَاتَّبَعْنَا الرَّسُولَ فَاكْتُبْنَا مَعَ الشَّاهِدِينَ', translation: 'Our Lord, we have believed in what You revealed and followed the messenger, so register us among the witnesses.', ref: '3:53' },
+  { arabic: 'رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ', translation: 'Our Lord, forgive us our sins and the excess in our affairs, and plant firmly our feet, and give us victory over the disbelieving people.', ref: '3:147' },
+  { arabic: 'رَبَّنَا مَا خَلَقْتَ هَذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ', translation: 'Our Lord, You did not create this without purpose. Glory be to You! So protect us from the punishment of Fire.', ref: '3:191' },
+  { arabic: 'رَبَّنَا إِنَّكَ مَن تُدْخِلِ النَّارَ فَقَدْ أَخْزَيْتَهُ وَمَا لِلظَّالِمِينَ مِنْ أَنصَارٍ', translation: 'Our Lord, indeed whoever You admit to the Fire, You have disgraced him, and for the wrongdoers there are no helpers.', ref: '3:192' },
+  { arabic: 'رَبَّنَا إِنَّنَا سَمِعْنَا مُنَادِيًا يُنَادِي لِلْإِيمَانِ فَآمَنَّا رَبَّنَا فَاغْفِرْ لَنَا ذُنُوبَنَا', translation: 'Our Lord, indeed we have heard a caller calling to faith, so we believed. Our Lord, forgive us our sins.', ref: '3:193' },
+  { arabic: 'رَبَّنَا وَآتِنَا مَا وَعَدتَّنَا عَلَى رُسُلِكَ وَلَا تُخْزِنَا يَوْمَ الْقِيَامَةِ', translation: 'Our Lord, grant us what You promised us through Your messengers and do not disgrace us on the Day of Resurrection.', ref: '3:194' },
+  { arabic: 'رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ', translation: 'Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers.', ref: '7:23' },
+  { arabic: 'رَبَّنَا لَا تَجْعَلْنَا مَعَ الْقَوْمِ الظَّالِمِينَ', translation: 'Our Lord, do not place us with the wrongdoing people.', ref: '7:47' },
+  { arabic: 'رَبَّنَا افْتَحْ بَيْنَنَا وَبَيْنَ قَوْمِنَا بِالْحَقِّ وَأَنتَ خَيْرُ الْفَاتِحِينَ', translation: 'Our Lord, decide between us and our people in truth, and You are the best of those who decide.', ref: '7:89' },
+  { arabic: 'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ', translation: 'Our Lord, pour upon us patience and let us die as Muslims.', ref: '7:126' },
+  { arabic: 'رَبَّنَا لَا تَجْعَلْنَا فِتْنَةً لِّلْقَوْمِ الظَّالِمِينَ وَنَجِّنَا بِرَحْمَتِكَ مِنَ الْقَوْمِ الْكَافِرِينَ', translation: 'Our Lord, do not make us a trial for the wrongdoing people, and save us by Your mercy from the disbelieving people.', ref: '10:85-86' },
+  { arabic: 'رَبَّنَا إِنَّكَ تَعْلَمُ مَا نُخْفِي وَمَا نُعْلِنُ وَمَا يَخْفَى عَلَى اللَّهِ مِن شَيْءٍ', translation: 'Our Lord, indeed You know what we conceal and what we declare, and nothing is hidden from Allah.', ref: '14:38' },
+  { arabic: 'رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ', translation: 'Our Lord, forgive me and my parents and the believers on the Day the account is established.', ref: '14:41' },
+  { arabic: 'رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا', translation: 'Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.', ref: '18:10' },
+  { arabic: 'رَبَّنَا إِنَّنَا نَخَافُ أَن يَفْرُطَ عَلَيْنَا أَوْ أَن يَطْغَى', translation: 'Our Lord, indeed we are afraid that he will hasten against us or that he will transgress.', ref: '20:45' },
+  { arabic: 'رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا وَارْحَمْنَا وَأَنتَ خَيْرُ الرَّاحِمِينَ', translation: 'Our Lord, we have believed, so forgive us and have mercy upon us, and You are the best of the merciful.', ref: '23:109' },
+  { arabic: 'رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ إِنَّ عَذَابَهَا كَانَ غَرَامًا', translation: 'Our Lord, avert from us the punishment of Hell. Indeed its punishment is a disaster.', ref: '25:65' },
+  { arabic: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا', translation: 'Our Lord, grant us from among our wives and offspring comfort to our eyes and make us a leader for the righteous.', ref: '25:74' },
+  { arabic: 'رَبَّنَا وَسِعْتَ كُلَّ شَيْءٍ رَّحْمَةً وَعِلْمًا فَاغْفِرْ لِلَّذِينَ تَابُوا وَاتَّبَعُوا سَبِيلَكَ', translation: 'Our Lord, You have encompassed all things in mercy and knowledge, so forgive those who have repented and followed Your way.', ref: '40:7' },
+  { arabic: 'رَبَّنَا وَأَدْخِلْهُمْ جَنَّاتِ عَدْنٍ الَّتِي وَعَدتَّهُمْ وَمَن صَلَحَ مِنْ آبَائِهِمْ', translation: 'Our Lord, admit them to the gardens of Eden which You have promised them, and whoever was righteous among their fathers.', ref: '40:8' },
+  { arabic: 'رَبَّنَا اكْشِفْ عَنَّا الْعَذَابَ إِنَّا مُؤْمِنُونَ', translation: 'Our Lord, remove from us the torment. Indeed we are believers.', ref: '44:12' },
+  { arabic: 'رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ', translation: 'Our Lord, forgive us and our brothers who preceded us in faith.', ref: '59:10' },
+  { arabic: 'رَبَّنَا لَا تَجْعَلْنَا فِتْنَةً لِّلَّذِينَ كَفَرُوا وَاغْفِرْ لَنَا رَبَّنَا', translation: 'Our Lord, do not make us a trial for those who disbelieve, and forgive us, our Lord.', ref: '60:5' },
+  { arabic: 'رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا إِنَّكَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', translation: 'Our Lord, perfect for us our light and forgive us. Indeed You are over all things competent.', ref: '66:8' },
+  { arabic: 'رَبَّنَا إِنِّي أَسْكَنتُ مِن ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِندَ بَيْتِكَ الْمُحَرَّمِ', translation: 'Our Lord, I have settled some of my descendants in a valley without vegetation near Your sacred house.', ref: '14:37' },
+  { arabic: 'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ', translation: 'My Lord, make me an establisher of prayer, and from my descendants. Our Lord, accept my supplication.', ref: '14:40' },
+  { arabic: 'رَبَّنَا إِنِّي أَعُوذُ بِكَ أَنْ أَسْأَلَكَ مَا لَيْسَ لِي بِهِ عِلْمٌ', translation: 'Our Lord, I seek refuge in You from asking You about that of which I have no knowledge.', ref: '11:47' },
+  { arabic: 'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا', translation: 'Our Lord, do not let our hearts deviate after You have guided us.', ref: '3:8' },
+  { arabic: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ', translation: 'Our Lord, grant us from among our wives and offspring comfort to our eyes.', ref: '25:74' },
+  { arabic: 'رَبَّنَا إِنَّكَ جَامِعُ النَّاسِ لِيَوْمٍ لَّا رَيْبَ فِيهِ', translation: 'Our Lord, surely You will gather the people for a Day about which there is no doubt.', ref: '3:9' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -260,6 +356,19 @@ export default function Home() {
   const [quranSearch,  setQuranSearch]  = useState('');
   const [bookmarks,    setBookmarks]    = useState([]);
   const [quranView,    setQuranView]    = useState('list'); // list | verses
+  const [audioSrc,     setAudioSrc]     = useState(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  // Dua ambient player
+  const [duaPlaying,    setDuaPlaying]    = useState(false);
+  const [duaIndex,      setDuaIndex]      = useState(0);
+  const duaAudioRef = useRef(null);
+
+  // Quran recitation player
+  const [recitPlaying,  setRecitPlaying]  = useState(false);
+  const [recitLoading,  setRecitLoading]  = useState(false);
+  const recitAudioRef = useRef(null);
 
   // Refs
   const lastFetchedDate = useRef('');
@@ -485,6 +594,86 @@ export default function Home() {
   };
 
   const isBookmarked = (surahNum, verseNum) => bookmarks.includes(`${surahNum}:${verseNum}`);
+
+  // ── Recitation ──
+  const playFromVerse = (surahNum, verseNum) => {
+    // Yasser Al-Dosari murattal -- mp3quran.net server 7
+    const surah = String(surahNum).padStart(3, '0');
+    const verse = String(verseNum).padStart(3, '0');
+    const url = `https://verses.quran.com/Yasser_Ad-Dossari/mp3/${surah}${verse}.mp3`;
+    setAudioSrc(url);
+    setAudioPlaying(true);
+    setTimeout(() => { if (audioRef.current) { audioRef.current.play(); } }, 100);
+  };
+
+  const stopAudio = () => {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    setAudioPlaying(false);
+    setAudioSrc(null);
+  };
+
+  // ── Dua Ambient Player ──
+  // Uses islamic.network CDN for full Quran audio by Alafasy -- we use short surahs as ambient
+  const DUA_AMBIENT = [
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/112.mp3',
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/113.mp3',
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/114.mp3',
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3',
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/67.mp3',
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/55.mp3',
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/36.mp3',
+    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/56.mp3',
+  ];
+
+  const toggleDuaAmbient = () => {
+    if (!duaAudioRef.current) return;
+    if (duaPlaying) {
+      duaAudioRef.current.pause();
+      setDuaPlaying(false);
+    } else {
+      duaAudioRef.current.src = DUA_AMBIENT[duaIndex];
+      duaAudioRef.current.play().catch(() => {});
+      setDuaPlaying(true);
+    }
+  };
+
+  const onDuaEnded = () => {
+    const next = (duaIndex + 1) % DUA_AMBIENT.length;
+    setDuaIndex(next);
+    if (duaAudioRef.current) {
+      duaAudioRef.current.src = DUA_AMBIENT[next];
+      duaAudioRef.current.play().catch(() => {});
+    }
+  };
+
+  // ── Quran Recitation Player (Yasser Al-Dosari full surah) ──
+  const playRecitation = (surahNum) => {
+    if (!recitAudioRef.current) return;
+    const num = String(surahNum).padStart(3, '0');
+    // mp3quran.net -- Yasser Al-Dosari (server 7 = yasser)
+    const url = `https://server7.mp3quran.net/yasser/${num}.mp3`;
+    recitAudioRef.current.src = url;
+    setRecitLoading(true);
+    setRecitPlaying(true);
+    recitAudioRef.current.play().catch(() => { setRecitPlaying(false); setRecitLoading(false); });
+  };
+
+  const toggleRecitation = () => {
+    if (!recitAudioRef.current) return;
+    if (recitPlaying) {
+      recitAudioRef.current.pause();
+      setRecitPlaying(false);
+    } else {
+      recitAudioRef.current.play().catch(() => {});
+      setRecitPlaying(true);
+    }
+  };
+
+  const stopRecitation = () => {
+    if (recitAudioRef.current) { recitAudioRef.current.pause(); recitAudioRef.current.currentTime = 0; }
+    setRecitPlaying(false);
+    setRecitLoading(false);
+  };
 
   // Ramadan / Iftar countdown
   const getIftarCountdown = () => {
@@ -1474,13 +1663,26 @@ export default function Home() {
                   </div>
                 ) : (
                   <div className="verses-shell fadein">
+                    <audio ref={recitAudioRef}
+                      onCanPlay={() => setRecitLoading(false)}
+                      onEnded={() => setRecitPlaying(false)}
+                      preload="none"
+                    />
                     <div className="verses-header">
-                      <button className="back-btn" onClick={() => { setQuranView('list'); setSurahVerses([]); }}>◂ Back</button>
+                      <button className="back-btn" onClick={() => { setQuranView('list'); setSurahVerses([]); stopRecitation(); }}>◂ Back</button>
                       <div style={{flex:1}}>
                         <div style={{fontSize:'0.9rem',fontWeight:700,color:T.text}}>{selSurah?.englishName}</div>
                         <div style={{fontSize:'0.68rem',color:T.dim}}>{selSurah?.numberOfAyahs} verses  .  {selSurah?.revelationType}</div>
                       </div>
-                      <div style={{fontFamily:"'Amiri', serif", fontSize:'1.3rem', color:T.accent}}>{selSurah?.name}</div>
+                      <div style={{fontFamily:"'Amiri', serif", fontSize:'1.3rem', color:T.accent, marginRight:'8px'}}>{selSurah?.name}</div>
+                      {/* Recitation play button */}
+                      <button
+                        onClick={() => recitPlaying ? toggleRecitation() : playRecitation(selSurah?.number)}
+                        title="Yasser Al-Dosari recitation"
+                        style={{background:recitPlaying?T.accentLo:T.accent, border:'none', borderRadius:'50%', width:'34px', height:'34px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', fontSize:'0.95rem', flexShrink:0, transition:'all 0.15s'}}
+                      >
+                        {recitLoading ? '...' : recitPlaying ? '⏸' : '▶'}
+                      </button>
                     </div>
                     <div className="verses-list">
                       {quranLoading && <div style={{textAlign:'center',padding:'20px',color:T.dim,fontSize:'0.82rem'}}>Loading verses...</div>}
@@ -1503,6 +1705,12 @@ export default function Home() {
                               onClick={() => toggleBookmark(selSurah?.number, v.number)}
                             >
                               {isBookmarked(selSurah?.number, v.number) ? '★ Saved' : '☆ Save'}
+                            </button>
+                            <button
+                              className={`verse-btn${audioPlaying && audioSrc?.includes(`/${String(selSurah?.number).padStart(3,'0')}${String(v.number).padStart(3,'0')}.mp3`) ? ' bookmarked' : ''}`}
+                              onClick={() => audioPlaying && audioSrc?.includes(`/${String(selSurah?.number).padStart(3,'0')}${String(v.number).padStart(3,'0')}.mp3`) ? stopAudio() : playFromVerse(selSurah?.number, v.number)}
+                            >
+                              {audioPlaying && audioSrc?.includes(`/${String(selSurah?.number).padStart(3,'0')}${String(v.number).padStart(3,'0')}.mp3`) ? '■ Stop' : '▶ Listen'}
                             </button>
                           </div>
                         </div>
@@ -1584,10 +1792,32 @@ export default function Home() {
             {/* DUAS */}
             {activeTab === 'duas' && (
               <div className="duas-shell fadein">
-                <div className="section-title" style={{padding:'0 2px'}}>Daily Dua Library</div>
+                {/* Ambient Player */}
+                <audio ref={duaAudioRef} onEnded={onDuaEnded} preload="none" />
+                <div style={{background:T.card, border:`1px solid ${T.border}`, borderRadius:'14px', padding:'10px 14px', display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0}}>
+                  <div>
+                    <div style={{fontSize:'0.72rem', fontWeight:700, color:T.accent, textTransform:'uppercase', letterSpacing:'0.08em'}}>Ambient Recitation</div>
+                    <div style={{fontSize:'0.68rem', color:T.dim, marginTop:'2px'}}>Mishary Alafasy -- loops continuously</div>
+                  </div>
+                  <button
+                    onClick={toggleDuaAmbient}
+                    style={{background:duaPlaying?T.accentLo:T.accent, border:'none', borderRadius:'50%', width:'38px', height:'38px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', fontSize:'1.1rem', transition:'all 0.15s'}}
+                  >
+                    {duaPlaying ? '⏸' : '▶'}
+                  </button>
+                </div>
+                <div className="section-title" style={{padding:'0 2px'}}>Daily Duas</div>
                 {DUAS.map((dua, i) => (
                   <div key={i} className="dua-card">
                     <div className="dua-title">{dua.title}</div>
+                    <div className="dua-arabic">{dua.arabic}</div>
+                    <div className="dua-translation">{dua.translation}</div>
+                  </div>
+                ))}
+                <div className="section-title" style={{padding:'8px 2px 0'}}>40 Rabbana Duas</div>
+                {RABBANA_DUAS.map((dua, i) => (
+                  <div key={i} className="dua-card">
+                    <div className="dua-title">Rabbana #{i+1} · {dua.ref}</div>
                     <div className="dua-arabic">{dua.arabic}</div>
                     <div className="dua-translation">{dua.translation}</div>
                   </div>
@@ -1680,6 +1910,15 @@ export default function Home() {
 
         </div>
       </div>
+      {audioSrc && (
+        <audio
+          ref={audioRef}
+          src={audioSrc}
+          autoPlay
+          onEnded={stopAudio}
+          style={{display:'none'}}
+        />
+      )}
     </>
   );
 }

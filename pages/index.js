@@ -210,8 +210,11 @@ function getPrayerCircle(prayers, now) {
   const dhuhaEnd = new Date(dhuhr.getTime()   - 20  * 60000);
   const zawal    = new Date(dhuhr.getTime()   - 10  * 60000);
   const asrRestr = new Date(maghrib.getTime() - 20  * 60000);
-  const nextFajr = new Date(fajr.getTime()    + 24  * 3600000);
-  const ishaEnd  = new Date(nextFajr.getTime()- 120 * 60000);
+  // If now is before fajr (post-midnight), nextFajr is today's fajr, else tomorrow's
+  const nextFajr = now < fajr
+    ? new Date(fajr.getTime())
+    : new Date(fajr.getTime() + 24 * 3600000);
+  const ishaEnd  = new Date(nextFajr.getTime() - 120 * 60000);
 
   let label, sublabel='', color, from, to;
   const C = '#cc2244', R = '#ee1133', G = '#22c55e', P = '#a855f7';

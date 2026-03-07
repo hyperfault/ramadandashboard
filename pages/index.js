@@ -6,6 +6,8 @@ import Head from 'next/head';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DHAKA = { lat: 23.8103, lng: 90.4125, tz: 'Asia/Dhaka', label: 'Dhaka, Bangladesh' };
+const AUTH_USER = 'Muntasir';
+const AUTH_HASH = '5cf97cdbc1bbfb92f5cb8a02ec694d8cc1fa7d78b381bd7ec76a6f50979feeec';
 const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
 
 const HIJRI_MONTHS = [
@@ -315,6 +317,13 @@ const DHAKA_QIBLA = Math.round(calcQibla(DHAKA.lat, DHAKA.lng));
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  // Auth
+  const [authed,       setAuthed]       = useState(false);
+  const [loginUser,    setLoginUser]    = useState('');
+  const [loginPass,    setLoginPass]    = useState('');
+  const [loginError,   setLoginError]   = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
+
   // Core state
   const [now,          setNow]          = useState(getDhakaTime);
   const [theme,        setTheme]        = useState('dark');
@@ -510,6 +519,26 @@ export default function Home() {
 
   const prevMonth = () => { setHijriCal([]); if(calMonth===1){setCalMonth(12);setCalYear(y=>y-1);}else setCalMonth(m=>m-1); };
   const nextMonth = () => { setHijriCal([]); if(calMonth===12){setCalMonth(1);setCalYear(y=>y+1);}else setCalMonth(m=>m+1); };
+
+  // ── Login ──
+  const handleLogin = async () => {
+    if (loginUser.trim() !== AUTH_USER) { setLoginError('Invalid username or password.'); return; }
+    setLoginLoading(true);
+    setLoginError('');
+    const encoder = new TextEncoder();
+    const data = encoder.encode(loginPass);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hashHex === AUTH_HASH) {
+      setAuthed(true);
+    } else {
+      setLoginError('Invalid username or password.');
+    }
+    setLoginLoading(false);
+  };
+
+  const handleLoginKey = e => { if (e.key === 'Enter') handleLogin(); };
 
   // ── Chat ──
   const sendMessage = useCallback(async () => {
@@ -1468,6 +1497,71 @@ export default function Home() {
       `}</style>
 
       <div className="app-rotate">
+        {/* LOGIN SCREEN */}
+        {!authed && (
+          <div style={{
+            position:'absolute', inset:0, zIndex:999,
+            background:'#000',
+            display:'flex', flexDirection:'column',
+            alignItems:'center', justifyContent:'center',
+            gap:'20px', padding:'40px',
+          }}>
+            <div style={{textAlign:'center', marginBottom:'8px'}}>
+              <div style={{fontFamily:"'Amiri', serif", fontSize:'2rem', color:'#cc2244', marginBottom:'4px'}}>بِسْمِ اللَّهِ</div>
+              <div style={{fontSize:'1.1rem', fontWeight:800, color:'#f0f0f0', letterSpacing:'-0.01em'}}>Islamic Dashboard</div>
+              <div style={{fontSize:'0.72rem', color:'#666', marginTop:'4px'}}>Personal access only</div>
+            </div>
+
+            <div style={{width:'100%', maxWidth:'280px', display:'flex', flexDirection:'column', gap:'10px'}}>
+              <input
+                style={{
+                  background:'#111', border:'1.5px solid #2a2a2a', borderRadius:'10px',
+                  padding:'10px 14px', color:'#f0f0f0', fontSize:'0.88rem',
+                  fontFamily:'Inter, sans-serif', outline:'none', width:'100%',
+                }}
+                placeholder="Username"
+                value={loginUser}
+                onChange={e => setLoginUser(e.target.value)}
+                onKeyDown={handleLoginKey}
+                autoComplete="off"
+              />
+              <input
+                type="password"
+                style={{
+                  background:'#111', border:'1.5px solid #2a2a2a', borderRadius:'10px',
+                  padding:'10px 14px', color:'#f0f0f0', fontSize:'0.88rem',
+                  fontFamily:'Inter, sans-serif', outline:'none', width:'100%',
+                }}
+                placeholder="Password"
+                value={loginPass}
+                onChange={e => setLoginPass(e.target.value)}
+                onKeyDown={handleLoginKey}
+                autoComplete="off"
+              />
+              {loginError && (
+                <div style={{fontSize:'0.72rem', color:'#ef4444', textAlign:'center'}}>{loginError}</div>
+              )}
+              <button
+                onClick={handleLogin}
+                disabled={loginLoading}
+                style={{
+                  background: loginLoading ? '#333' : '#cc2244',
+                  border:'none', borderRadius:'10px',
+                  padding:'11px', color:'#fff',
+                  fontSize:'0.88rem', fontWeight:700,
+                  cursor: loginLoading ? 'not-allowed' : 'pointer',
+                  fontFamily:'Inter, sans-serif',
+                  transition:'background 0.2s',
+                }}
+              >
+                {loginLoading ? 'Verifying...' : 'Enter'}
+              </button>
+            </div>
+
+            <div style={{fontSize:'0.62rem', color:'#333', marginTop:'8px'}}>As-salamu alaykum, Muntasir</div>
+          </div>
+        )}
+
         <div className="shell">
 
           {/* ── TOP BAR ── */}
@@ -1882,6 +1976,45 @@ export default function Home() {
                     <div className="settings-sub">Prayer completion tracker</div>
                   </div>
                   <div className="settings-value">{prayedCount}/5 prayed</div>
+                </div>
+                <div className="settings-row">
+                  <div>
+                    <div className="settings-label">Refresh App</div>
+                    <div className="settings-sub">Reload the dashboard</div>
+                  </div>
+                  <button
+                    className="tasbih-ctrl-btn"
+                    style={{fontSize:'0.7rem', background:'#1a2a1a', borderColor:'#22c55e', color:'#22c55e'}}
+                    onClick={() => window.location.reload()}
+                  >
+                    Refresh
+                  </button>
+                </div>
+                <div className="settings-row">
+                  <div>
+                    <div className="settings-label">Open Terminal</div>
+                    <div className="settings-sub">Pi system terminal (kiosk)</div>
+                  </div>
+                  <button
+                    className="tasbih-ctrl-btn"
+                    style={{fontSize:'0.7rem', background:'#1a1a2a', borderColor:'#6366f1', color:'#6366f1'}}
+                    onClick={() => { window.open('http://192.168.10.142:7681', '_blank'); }}
+                  >
+                    Terminal
+                  </button>
+                </div>
+                <div className="settings-row">
+                  <div>
+                    <div className="settings-label">Lock Screen</div>
+                    <div className="settings-sub">Return to login</div>
+                  </div>
+                  <button
+                    className="tasbih-ctrl-btn"
+                    style={{fontSize:'0.7rem', background:'#2a1a1a', borderColor:'#cc2244', color:'#cc2244'}}
+                    onClick={() => { setAuthed(false); setLoginPass(''); setLoginUser(''); }}
+                  >
+                    Lock
+                  </button>
                 </div>
               </div>
             )}

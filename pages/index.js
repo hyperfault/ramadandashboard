@@ -457,19 +457,17 @@ export default function Home() {
     setSelSurah(surah);
     setQuranView('verses');
     setQuranLoading(true);
-    const cacheKey = `surah_${surah.number}`;
+    const cacheKey = `surah2_${surah.number}`;
     const cached = cacheGet(cacheKey);
     if (cached) { setSurahVerses(cached); setQuranLoading(false); return; }
     try {
-      const [arRes, enRes] = await Promise.all([
-        fetch(`https://api.alquran.cloud/v1/surah/${surah.number}`),
-        fetch(`https://api.alquran.cloud/v1/surah/${surah.number}/en.sahih`),
-      ]);
-      const [ar, en] = await Promise.all([arRes.json(), enRes.json()]);
-      const verses = ar.data.ayahs.map((a, i) => ({
-        number: a.numberInSurah,
-        arabic: a.text,
-        english: en.data.ayahs[i]?.text || '',
+      // quran.com API v4 -- bismillah is separate, verses start from 1 correctly
+      const res = await fetch(`https://api.quran.com/api/v4/verses/by_chapter/${surah.number}?language=en&words=false&translations=131&per_page=300&fields=text_uthmani`);
+      const data = await res.json();
+      const verses = data.verses.map(v => ({
+        number: v.verse_number,
+        arabic: v.text_uthmani,
+        english: v.translations?.[0]?.text?.replace(/<[^>]+>/g, '') || '',
       }));
       setSurahVerses(verses);
       cacheSet(cacheKey, verses);
@@ -1492,13 +1490,7 @@ export default function Home() {
                           بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
                         </div>
                       )}
-                      {surahVerses
-                        .filter(v => {
-                          if (selSurah?.number === 1 || selSurah?.number === 9) return true;
-                          if (v.number === 1 && v.arabic && v.arabic.startsWith('بِسْم')) return false;
-                          return true;
-                        })
-                        .map(v => (
+                      {surahVerses.map(v => (
                         <div key={v.number} className="verse-card">
                           <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px'}}>
                             <div className="verse-num">{selSurah?.number !== 1 && selSurah?.number !== 9 ? v.number - 1 : v.number}</div>

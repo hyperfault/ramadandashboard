@@ -1494,7 +1494,7 @@ rel="stylesheet"
                     </div>
                   )}
                   {surahVerses
-                    .filter(v => selSurah?.number !== 1 ? v.number !== 1 || !v.arabic.startsWith('بِسْمِ') : true)
+                    .filter(v => selSurah?.number !== 1 ? v.number !== 1 : true)
                     .map(v => (
                     <div key={v.number} className="verse-card">
                       <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px'}}>

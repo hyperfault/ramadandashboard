@@ -107,6 +107,34 @@ const DUA_AUDIO_URLS = [
   'https://cdn.islamic.network/quran/audio/128/ar.alafasy/6.mp3',
 ];
 
+// Quran reciters -- quran.com chapter_recitations API IDs
+const QURAN_RECITERS = [
+  { id: 7,  name: 'Yasser Al-Dosari',         style: 'Murattal' },
+  { id: 5,  name: 'Mishary Rashid Alafasy',   style: 'Murattal' },
+  { id: 1,  name: 'AbdulBaset AbdulSamad',    style: 'Mujawwad' },
+  { id: 2,  name: 'AbdulBaset AbdulSamad',    style: 'Murattal' },
+  { id: 3,  name: 'Abu Bakr al-Shatri',       style: 'Murattal' },
+  { id: 4,  name: "Sa'ud ash-Shuraym",        style: 'Murattal' },
+  { id: 6,  name: 'Maher Al-Muaiqly',         style: 'Murattal' },
+  { id: 9,  name: 'Hani ar-Rifai',            style: 'Murattal' },
+  { id: 10, name: 'Ibrahim Al-Akhdar',        style: 'Murattal' },
+  { id: 11, name: 'Khalid Al-Qahtani',        style: 'Murattal' },
+  { id: 12, name: 'Nasser Al-Qatami',         style: 'Murattal' },
+  { id: 13, name: 'Mohamed Siddiq El-Minshawi', style: 'Mujawwad' },
+];
+
+// Dua ambient reciters -- islamic.network CDN edition keys
+const DUA_RECITERS = [
+  { key: 'ar.alafasy',       name: 'Mishary Alafasy' },
+  { key: 'ar.abdullahbasfar',name: 'Abdullah Basfar' },
+  { key: 'ar.abdurrahmaansudais', name: 'Abdurrahmaan As-Sudais' },
+  { key: 'ar.ahmedajamy',    name: 'Ahmed ibn Ali Al-Ajamy' },
+  { key: 'ar.husary',        name: 'Mahmoud Khalil Al-Husary' },
+  { key: 'ar.minshawi',      name: 'Mohamed Siddiq El-Minshawi' },
+  { key: 'ar.muhammadayyoub',name: 'Muhammad Ayyoub' },
+  { key: 'ar.shaatree',      name: 'Abu Bakr al-Shatri' },
+];
+
 const HADITHS = [
   { text: "The best of people are those who are most beneficial to people.", source: "Al-Mu'jam al-Awsat" },
   { text: "Whoever believes in Allah and the Last Day, let him speak good or remain silent.", source: "Bukhari & Muslim" },
@@ -338,6 +366,8 @@ export default function Home() {
   const [recitPlaying,  setRecitPlaying]  = useState(false);
   const [recitLoading,  setRecitLoading]  = useState(false);
   const recitAudioRef = useRef(null);
+  const [selQuranReciter, setSelQuranReciter] = useState(QURAN_RECITERS[0]);
+  const [selDuaReciter,   setSelDuaReciter]   = useState(DUA_RECITERS[0]);
 
   // Refs
   const lastFetchedDate = useRef('');
@@ -602,17 +632,10 @@ export default function Home() {
   };
 
   // ── Dua Ambient Player ──
-  // Uses islamic.network CDN for full Quran audio by Alafasy -- we use short surahs as ambient
-  const DUA_AMBIENT = [
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/112.mp3',
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/113.mp3',
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/114.mp3',
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3',
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/67.mp3',
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/55.mp3',
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/36.mp3',
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/56.mp3',
-  ];
+  const DUA_SURAHS = [112, 113, 114, 1, 67, 55, 36, 56, 18, 19];
+
+  const getDuaUrl = (surahNum, reciterKey) =>
+    `https://cdn.islamic.network/quran/audio/128/${reciterKey}/${surahNum}.mp3`;
 
   const toggleDuaAmbient = () => {
     if (!duaAudioRef.current) return;
@@ -620,31 +643,46 @@ export default function Home() {
       duaAudioRef.current.pause();
       setDuaPlaying(false);
     } else {
-      duaAudioRef.current.src = DUA_AMBIENT[duaIndex];
+      duaAudioRef.current.src = getDuaUrl(DUA_SURAHS[duaIndex], selDuaReciter.key);
       duaAudioRef.current.play().catch(() => {});
       setDuaPlaying(true);
     }
   };
 
   const onDuaEnded = () => {
-    const next = (duaIndex + 1) % DUA_AMBIENT.length;
+    const next = (duaIndex + 1) % DUA_SURAHS.length;
     setDuaIndex(next);
     if (duaAudioRef.current) {
-      duaAudioRef.current.src = DUA_AMBIENT[next];
+      duaAudioRef.current.src = getDuaUrl(DUA_SURAHS[next], selDuaReciter.key);
       duaAudioRef.current.play().catch(() => {});
     }
   };
 
-  // ── Quran Recitation Player (Yasser Al-Dosari full surah) ──
-  const playRecitation = (surahNum) => {
+  const changeDuaReciter = (reciter) => {
+    setSelDuaReciter(reciter);
+    if (duaAudioRef.current) {
+      duaAudioRef.current.pause();
+      duaAudioRef.current.src = getDuaUrl(DUA_SURAHS[duaIndex], reciter.key);
+      if (duaPlaying) duaAudioRef.current.play().catch(() => {});
+    }
+  };
+
+  // ── Quran Recitation Player -- quran.com chapter_recitations API ──
+  const playRecitation = async (surahNum) => {
     if (!recitAudioRef.current) return;
-    const num = String(surahNum).padStart(3, '0');
-    // mp3quran.net -- Yasser Al-Dosari (server 7 = yasser)
-    const url = `https://server7.mp3quran.net/yasser/${num}.mp3`;
-    recitAudioRef.current.src = url;
     setRecitLoading(true);
     setRecitPlaying(true);
-    recitAudioRef.current.play().catch(() => { setRecitPlaying(false); setRecitLoading(false); });
+    try {
+      const res = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${selQuranReciter.id}/${surahNum}`);
+      const data = await res.json();
+      const url = data.audio_file?.audio_url;
+      if (!url) throw new Error('No URL');
+      recitAudioRef.current.src = url;
+      await recitAudioRef.current.play();
+    } catch {
+      setRecitPlaying(false);
+      setRecitLoading(false);
+    }
   };
 
   const toggleRecitation = () => {
@@ -662,6 +700,11 @@ export default function Home() {
     if (recitAudioRef.current) { recitAudioRef.current.pause(); recitAudioRef.current.currentTime = 0; }
     setRecitPlaying(false);
     setRecitLoading(false);
+  };
+
+  const changeQuranReciter = (reciter) => {
+    setSelQuranReciter(reciter);
+    stopRecitation();
   };
 
   // Ramadan / Iftar countdown
@@ -1729,14 +1772,24 @@ export default function Home() {
                         <div style={{fontSize:'0.68rem',color:T.dim}}>{selSurah?.numberOfAyahs} verses  .  {selSurah?.revelationType}</div>
                       </div>
                       <div style={{fontFamily:"'Amiri', serif", fontSize:'1.3rem', color:T.accent, marginRight:'8px'}}>{selSurah?.name}</div>
-                      {/* Recitation play button */}
-                      <button
-                        onClick={() => recitPlaying ? toggleRecitation() : playRecitation(selSurah?.number)}
-                        title="Yasser Al-Dosari recitation"
-                        style={{background:recitPlaying?T.accentLo:T.accent, border:'none', borderRadius:'50%', width:'34px', height:'34px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', fontSize:'0.95rem', flexShrink:0, transition:'all 0.15s'}}
-                      >
-                        {recitLoading ? '...' : recitPlaying ? '⏸' : '▶'}
-                      </button>
+                      {/* Recitation controls */}
+                      <div style={{display:'flex', alignItems:'center', gap:'6px', flexShrink:0}}>
+                        <select
+                          value={selQuranReciter.id}
+                          onChange={e => changeQuranReciter(QURAN_RECITERS.find(r => r.id === Number(e.target.value)))}
+                          style={{background:T.card, border:`1px solid ${T.border}`, borderRadius:'8px', color:T.dim, fontSize:'0.62rem', padding:'4px 6px', fontFamily:'Inter, sans-serif', cursor:'pointer', maxWidth:'120px'}}
+                        >
+                          {QURAN_RECITERS.map(r => (
+                            <option key={r.id} value={r.id}>{r.name} ({r.style})</option>
+                          ))}
+                        </select>
+                        <button
+                          onClick={() => recitPlaying ? toggleRecitation() : playRecitation(selSurah?.number)}
+                          style={{background:recitPlaying?T.accentLo:T.accent, border:'none', borderRadius:'50%', width:'34px', height:'34px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', fontSize:'0.95rem', flexShrink:0, transition:'all 0.15s'}}
+                        >
+                          {recitLoading ? '...' : recitPlaying ? '⏸' : '▶'}
+                        </button>
+                      </div>
                     </div>
                     <div className="verses-list">
                       {quranLoading && <div style={{textAlign:'center',padding:'20px',color:T.dim,fontSize:'0.82rem'}}>Loading verses...</div>}
@@ -1848,17 +1901,28 @@ export default function Home() {
               <div className="duas-shell fadein">
                 {/* Ambient Player */}
                 <audio ref={duaAudioRef} onEnded={onDuaEnded} preload="none" />
-                <div style={{background:T.card, border:`1px solid ${T.border}`, borderRadius:'14px', padding:'10px 14px', display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0}}>
-                  <div>
-                    <div style={{fontSize:'0.72rem', fontWeight:700, color:T.accent, textTransform:'uppercase', letterSpacing:'0.08em'}}>Ambient Recitation</div>
-                    <div style={{fontSize:'0.68rem', color:T.dim, marginTop:'2px'}}>Mishary Alafasy -- loops continuously</div>
+                <div style={{background:T.card, border:`1px solid ${T.border}`, borderRadius:'14px', padding:'10px 14px', flexShrink:0}}>
+                  <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'8px'}}>
+                    <div>
+                      <div style={{fontSize:'0.72rem', fontWeight:700, color:T.accent, textTransform:'uppercase', letterSpacing:'0.08em'}}>Ambient Recitation</div>
+                      <div style={{fontSize:'0.68rem', color:T.dim, marginTop:'2px'}}>Loops short surahs continuously</div>
+                    </div>
+                    <button
+                      onClick={toggleDuaAmbient}
+                      style={{background:duaPlaying?T.accentLo:T.accent, border:'none', borderRadius:'50%', width:'38px', height:'38px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', fontSize:'1.1rem', transition:'all 0.15s', flexShrink:0}}
+                    >
+                      {duaPlaying ? '⏸' : '▶'}
+                    </button>
                   </div>
-                  <button
-                    onClick={toggleDuaAmbient}
-                    style={{background:duaPlaying?T.accentLo:T.accent, border:'none', borderRadius:'50%', width:'38px', height:'38px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', fontSize:'1.1rem', transition:'all 0.15s'}}
+                  <select
+                    value={selDuaReciter.key}
+                    onChange={e => changeDuaReciter(DUA_RECITERS.find(r => r.key === e.target.value))}
+                    style={{background:T.bgMid, border:`1px solid ${T.border}`, borderRadius:'8px', color:T.text, fontSize:'0.72rem', padding:'5px 8px', fontFamily:'Inter, sans-serif', cursor:'pointer', width:'100%'}}
                   >
-                    {duaPlaying ? '⏸' : '▶'}
-                  </button>
+                    {DUA_RECITERS.map(r => (
+                      <option key={r.key} value={r.key}>{r.name}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="section-title" style={{padding:'0 2px'}}>Daily Duas</div>
                 {DUAS.map((dua, i) => (

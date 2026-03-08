@@ -315,7 +315,22 @@ export default function Home() {
   // Core state
   const [now,          setNow]          = useState(getDhakaTime);
   const [theme,        setTheme]        = useState('dark');
-  const [activeTab,    setActiveTab]    = useState('home');     // home | quran | dhikr | duas | settings
+  const [activeTab,    setActiveTab]    = useState('home');     // home | quran | dhikr | duas | settings | deck
+  const [pcIp,         setPcIp]         = useState(() => { try { return localStorage.getItem('pc_ip') || '192.168.10.'; } catch { return '192.168.10.'; } });
+  const [deckFeedback, setDeckFeedback] = useState({});
+  const [pcStatus,     setPcStatus]     = useState(null);
+  const [deckButtons,  setDeckButtons]  = useState([
+    { id:1, icon:'🔊', label:'Vol +',    action:'/volume/up'    },
+    { id:2, icon:'🔉', label:'Vol -',    action:'/volume/down'  },
+    { id:3, icon:'🔇', label:'Mute',     action:'/volume/mute'  },
+    { id:4, icon:'⏯',  label:'Play',     action:'/media/play'   },
+    { id:5, icon:'⏭',  label:'Next',     action:'/media/next'   },
+    { id:6, icon:'⏮',  label:'Prev',     action:'/media/prev'   },
+    { id:7, icon:'🌐', label:'Browser',  action:'/app/browser'  },
+    { id:8, icon:'💻', label:'Terminal', action:'/app/terminal' },
+    { id:9, icon:'📷', label:'Screenshot',action:'/app/screenshot'},
+  ]);
+  const [dragIdx,      setDragIdx]      = useState(null);
 
   // Prayer data
   const [prayers,      setPrayers]      = useState([]);
@@ -697,6 +712,46 @@ export default function Home() {
   const changeQuranReciter = (reciter) => {
     setSelQuranReciter(reciter);
     stopRecitation();
+  };
+
+  // ── Stream Deck ──
+  const deckAction = async (btn) => {
+    if (!pcIp || pcIp.endsWith('.')) return;
+    setDeckFeedback(prev => ({ ...prev, [btn.id]: 'active' }));
+    try {
+      await fetch(`http://${pcIp}:5000${btn.action}`, { mode: 'no-cors' });
+      setDeckFeedback(prev => ({ ...prev, [btn.id]: 'ok' }));
+    } catch {
+      setDeckFeedback(prev => ({ ...prev, [btn.id]: 'err' }));
+    }
+    setTimeout(() => setDeckFeedback(prev => ({ ...prev, [btn.id]: null })), 600);
+  };
+
+  const fetchPcStatus = async () => {
+    if (!pcIp || pcIp.endsWith('.')) return;
+    try {
+      const res = await fetch(`http://${pcIp}:5000/status`);
+      const data = await res.json();
+      setPcStatus(data);
+    } catch {
+      setPcStatus(null);
+    }
+  };
+
+  const savePcIp = (ip) => {
+    setPcIp(ip);
+    try { localStorage.setItem('pc_ip', ip); } catch {}
+  };
+
+  const onDragStart = (idx) => setDragIdx(idx);
+  const onDragOver  = (e) => e.preventDefault();
+  const onDrop      = (idx) => {
+    if (dragIdx === null || dragIdx === idx) return;
+    const updated = [...deckButtons];
+    const [moved] = updated.splice(dragIdx, 1);
+    updated.splice(idx, 0, moved);
+    setDeckButtons(updated);
+    setDragIdx(null);
   };
 
   // Ramadan / Iftar countdown
@@ -1935,6 +1990,71 @@ export default function Home() {
               </div>
             )}
 
+            {/* DECK */}
+            {activeTab === 'deck' && (
+              <div className="fadein" style={{height:'100%', display:'flex', flexDirection:'column', padding:'10px 12px', gap:'10px', overflowY:'auto'}}>
+
+                {/* Status bar */}
+                <div style={{background:T.card, border:`1px solid ${T.border}`, borderRadius:'12px', padding:'10px 14px', display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0}}>
+                  <div>
+                    <div style={{fontSize:'0.7rem', fontWeight:700, color:T.accent, textTransform:'uppercase', letterSpacing:'0.08em'}}>Stream Deck</div>
+                    {pcStatus ? (
+                      <div style={{fontSize:'0.68rem', color:T.dim, marginTop:'2px'}}>
+                        {pcStatus.nowPlaying ? pcStatus.nowPlaying : 'Nothing playing'}
+                        {' · '}Vol {pcStatus.volume}%{pcStatus.muted ? ' (muted)' : ''}
+                      </div>
+                    ) : (
+                      <div style={{fontSize:'0.68rem', color:T.dim, marginTop:'2px'}}>PC offline or IP not set</div>
+                    )}
+                  </div>
+                  <button
+                    onClick={fetchPcStatus}
+                    style={{background:T.bgMid, border:`1px solid ${T.border}`, borderRadius:'8px', padding:'5px 10px', color:T.dim, fontSize:'0.68rem', fontWeight:600, cursor:'pointer', fontFamily:'Inter, sans-serif'}}
+                  >
+                    Ping
+                  </button>
+                </div>
+
+                {/* Button grid */}
+                <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'8px', flexShrink:0}}>
+                  {deckButtons.map((btn, idx) => {
+                    const fb = deckFeedback[btn.id];
+                    return (
+                      <div
+                        key={btn.id}
+                        draggable
+                        onDragStart={() => onDragStart(idx)}
+                        onDragOver={onDragOver}
+                        onDrop={() => onDrop(idx)}
+                        onClick={() => deckAction(btn)}
+                        style={{
+                          background: fb === 'active' ? T.accentLo : fb === 'ok' ? '#1a2a1a' : fb === 'err' ? '#2a1a1a' : T.card,
+                          border: `1px solid ${fb === 'ok' ? T.green : fb === 'err' ? '#ef4444' : T.border}`,
+                          borderRadius: '14px',
+                          padding: '14px 8px',
+                          display: 'flex', flexDirection: 'column',
+                          alignItems: 'center', justifyContent: 'center',
+                          gap: '6px',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s',
+                          userSelect: 'none',
+                          WebkitTapHighlightColor: 'transparent',
+                          minHeight: '72px',
+                        }}
+                      >
+                        <span style={{fontSize:'1.6rem', lineHeight:1}}>{btn.icon}</span>
+                        <span style={{fontSize:'0.65rem', fontWeight:700, color: fb ? (fb==='err'?'#ef4444':T.green) : T.dim, textAlign:'center', letterSpacing:'0.04em', textTransform:'uppercase'}}>{btn.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Drag hint */}
+                <div style={{fontSize:'0.62rem', color:T.dim, textAlign:'center', flexShrink:0}}>Hold and drag buttons to reorder</div>
+
+              </div>
+            )}
+
             {/* SETTINGS */}
             {activeTab === 'settings' && (
               <div className="settings-shell fadein">
@@ -1994,6 +2114,18 @@ export default function Home() {
                   <div className="settings-value">{prayedCount}/5 prayed</div>
                 </div>
                 <div className="settings-row">
+                  <div style={{flex:1}}>
+                    <div className="settings-label">PC IP Address</div>
+                    <div className="settings-sub">For Stream Deck remote control</div>
+                  </div>
+                  <input
+                    value={pcIp}
+                    onChange={e => savePcIp(e.target.value)}
+                    placeholder="192.168.10.x"
+                    style={{background:T.bgMid, border:`1px solid ${T.border}`, borderRadius:'8px', padding:'5px 8px', color:T.text, fontSize:'0.75rem', fontFamily:'Inter, sans-serif', outline:'none', width:'110px', textAlign:'right'}}
+                  />
+                </div>
+                <div className="settings-row">
                   <div>
                     <div className="settings-label">Refresh App</div>
                     <div className="settings-sub">Reload the dashboard</div>
@@ -2044,6 +2176,7 @@ export default function Home() {
               { id:'quran',    icon:'Q', label:'Quran'   },
               { id:'dhikr',    icon:'O', label:'Dhikr'   },
               { id:'duas',     icon:'+', label:'Du\'as'  },
+              { id:'deck',     icon:'#', label:'Deck'     },
               { id:'settings', icon:'=', label:'Settings'},
             ].map(tab => (
               <div

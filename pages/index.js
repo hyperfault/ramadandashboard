@@ -107,20 +107,20 @@ const DUA_AUDIO_URLS = [
   'https://cdn.islamic.network/quran/audio/128/ar.alafasy/6.mp3',
 ];
 
-// Quran reciters -- quran.com chapter_recitations API IDs
+// Quran reciters -- direct quranicaudio.com CDN slugs (no API call needed)
 const QURAN_RECITERS = [
-  { id: 7,  name: 'Yasser Al-Dosari',         style: 'Murattal' },
-  { id: 5,  name: 'Mishary Rashid Alafasy',   style: 'Murattal' },
-  { id: 1,  name: 'AbdulBaset AbdulSamad',    style: 'Mujawwad' },
-  { id: 2,  name: 'AbdulBaset AbdulSamad',    style: 'Murattal' },
-  { id: 3,  name: 'Abu Bakr al-Shatri',       style: 'Murattal' },
-  { id: 4,  name: "Sa'ud ash-Shuraym",        style: 'Murattal' },
-  { id: 6,  name: 'Maher Al-Muaiqly',         style: 'Murattal' },
-  { id: 9,  name: 'Hani ar-Rifai',            style: 'Murattal' },
-  { id: 10, name: 'Ibrahim Al-Akhdar',        style: 'Murattal' },
-  { id: 11, name: 'Khalid Al-Qahtani',        style: 'Murattal' },
-  { id: 12, name: 'Nasser Al-Qatami',         style: 'Murattal' },
-  { id: 13, name: 'Mohamed Siddiq El-Minshawi', style: 'Mujawwad' },
+  { slug: 'yasser_ad-dossari',           name: 'Yasser Al-Dosari',            style: 'Murattal' },
+  { slug: 'mishari_al_afasy',            name: 'Mishary Rashid Alafasy',      style: 'Murattal' },
+  { slug: 'abu_bakr_ash-shaatree',       name: 'Abu Bakr al-Shatri',          style: 'Murattal' },
+  { slug: 'abdulbaset_abdulsamad',       name: 'AbdulBaset AbdulSamad',       style: 'Murattal' },
+  { slug: 'abdulbaset_mujawwad',         name: 'AbdulBaset AbdulSamad',       style: 'Mujawwad' },
+  { slug: 'maher_al_muaiqly',            name: 'Maher Al-Muaiqly',            style: 'Murattal' },
+  { slug: 'nasser_al_qatami',            name: 'Nasser Al-Qatami',            style: 'Murattal' },
+  { slug: 'mahmoud_khaleel_al-husaree',  name: 'Mahmoud Al-Husary',           style: 'Murattal' },
+  { slug: 'hani_ar-rifai',               name: 'Hani ar-Rifai',               style: 'Murattal' },
+  { slug: 'ibrahim_al_akhdar',           name: 'Ibrahim Al-Akhdar',           style: 'Murattal' },
+  { slug: 'saud_ash-shuraym',            name: "Sa'ud ash-Shuraym",           style: 'Murattal' },
+  { slug: 'khalid_al_qahtani',           name: 'Khalid Al-Qahtani',           style: 'Murattal' },
 ];
 
 // Dua ambient reciters -- islamic.network CDN edition keys
@@ -667,22 +667,14 @@ export default function Home() {
     }
   };
 
-  // ── Quran Recitation Player -- quran.com chapter_recitations API ──
-  const playRecitation = async (surahNum) => {
+  // ── Quran Recitation Player -- direct quranicaudio.com CDN ──
+  const playRecitation = (surahNum) => {
     if (!recitAudioRef.current) return;
+    const url = `https://download.quranicaudio.com/qdc/${selQuranReciter.slug}/murattal/${surahNum}.mp3`;
+    recitAudioRef.current.src = url;
     setRecitLoading(true);
     setRecitPlaying(true);
-    try {
-      const res = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${selQuranReciter.id}/${surahNum}`);
-      const data = await res.json();
-      const url = data.audio_file?.audio_url;
-      if (!url) throw new Error('No URL');
-      recitAudioRef.current.src = url;
-      await recitAudioRef.current.play();
-    } catch {
-      setRecitPlaying(false);
-      setRecitLoading(false);
-    }
+    recitAudioRef.current.play().catch(() => { setRecitPlaying(false); setRecitLoading(false); });
   };
 
   const toggleRecitation = () => {
@@ -1775,12 +1767,12 @@ export default function Home() {
                       {/* Recitation controls */}
                       <div style={{display:'flex', alignItems:'center', gap:'6px', flexShrink:0}}>
                         <select
-                          value={selQuranReciter.id}
-                          onChange={e => changeQuranReciter(QURAN_RECITERS.find(r => r.id === Number(e.target.value)))}
+                          value={selQuranReciter.slug}
+                          onChange={e => changeQuranReciter(QURAN_RECITERS.find(r => r.slug === e.target.value))}
                           style={{background:T.card, border:`1px solid ${T.border}`, borderRadius:'8px', color:T.dim, fontSize:'0.62rem', padding:'4px 6px', fontFamily:'Inter, sans-serif', cursor:'pointer', maxWidth:'120px'}}
                         >
                           {QURAN_RECITERS.map(r => (
-                            <option key={r.id} value={r.id}>{r.name} ({r.style})</option>
+                            <option key={r.slug} value={r.slug}>{r.name} ({r.style})</option>
                           ))}
                         </select>
                         <button

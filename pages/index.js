@@ -897,7 +897,7 @@ export default function Home() {
 
         html, body {
           width: 100%; height: 100%;
-          background: ${isDark ? '#000' : '#efefef'};
+          background: ${isDark ? '#000' : '#d5dff0'};
           overflow: hidden;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           -webkit-font-smoothing: antialiased;
@@ -912,8 +912,32 @@ export default function Home() {
           transform: translate(-50%, -50%) rotate(90deg);
           transform-origin: center center;
           overflow: hidden;
-          background: ${T.bg};
           transition: background 0.4s ease;
+          background: ${isDark
+            ? 'radial-gradient(ellipse at 20% 20%, #1a0a14 0%, #000 50%, #0a000f 100%)'
+            : 'radial-gradient(ellipse at 20% 20%, #e0d0f0 0%, #d5e5ff 50%, #f0e0d0 100%)'};
+        }
+        .app-rotate::before {
+          content: '';
+          position: absolute;
+          width: 300px; height: 300px;
+          border-radius: 50%;
+          background: ${isDark ? 'rgba(204,34,68,0.15)' : 'rgba(130,80,220,0.18)'};
+          top: -80px; left: -60px;
+          filter: blur(90px);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .app-rotate::after {
+          content: '';
+          position: absolute;
+          width: 250px; height: 250px;
+          border-radius: 50%;
+          background: ${isDark ? 'rgba(60,30,100,0.2)' : 'rgba(220,120,60,0.15)'};
+          bottom: -60px; right: -40px;
+          filter: blur(80px);
+          pointer-events: none;
+          z-index: 0;
         }
 
         /* Main shell */
@@ -924,6 +948,8 @@ export default function Home() {
           height: 100%;
           color: ${T.text};
           transition: color 0.3s ease;
+          position: relative;
+          z-index: 1;
         }
 
         /* Top bar */
@@ -947,8 +973,10 @@ export default function Home() {
         .topbar-right { display: flex; align-items: center; gap: 8px; }
 
         .icon-btn {
-          background: ${T.card};
-          border: 1px solid ${T.border};
+          background: ${T.glass};
+          backdrop-filter: ${T.glassBlur};
+          -webkit-backdrop-filter: ${T.glassBlur};
+          border: 1px solid ${T.glassBorder};
           border-radius: 10px;
           width: 38px; height: 38px;
           display: flex; align-items: center; justify-content: center;

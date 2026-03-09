@@ -312,6 +312,14 @@ export default function Home() {
   const [loginPass,    setLoginPass]    = useState('');
   const [loginError,   setLoginError]   = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
+  const [isPublic,       setIsPublic]       = useState(false);
+  const [standby,        setStandby]        = useState(false);
+  const [standbyEnabled, setStandbyEnabled] = useState(true);
+  const [weather,        setWeather]        = useState(null);
+  const [displayName,    setDisplayName]    = useState('Muntasir');
+  const [publicAiEnabled,setPublicAiEnabled]= useState(false);
+  const [aiDisclaimer,   setAiDisclaimer]   = useState(false);
+  const lastActivityRef = useRef(Date.now());
 
   // Core state
   const [now,          setNow]          = useState(getDhakaTime);

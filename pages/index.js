@@ -897,7 +897,7 @@ export default function Home() {
 
         html, body {
           width: 100%; height: 100%;
-          background: ${isDark ? '#000' : '#d5dff0'};
+          background: #000;
           overflow: hidden;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           -webkit-font-smoothing: antialiased;
@@ -909,6 +909,8 @@ export default function Home() {
           top: 50%; left: 50%;
           width: 100vh;
           height: 100vw;
+          min-width: 100vh;
+          min-height: 100vw;
           transform: translate(-50%, -50%) rotate(90deg);
           transform-origin: center center;
           overflow: hidden;
@@ -1022,9 +1024,11 @@ export default function Home() {
         .bottomnav {
           display: flex;
           align-items: center;
-          border-top: 1px solid ${T.border};
+          border-top: 1px solid ${T.glassBorder};
           flex-shrink: 0;
-          background: ${T.tabBg};
+          background: ${T.glass};
+          backdrop-filter: ${T.glassBlur};
+          -webkit-backdrop-filter: ${T.glassBlur};
         }
         .navitem {
           flex: 1;

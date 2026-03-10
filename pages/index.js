@@ -910,8 +910,8 @@ export default function Home() {
         .app-rotate {
           position: fixed;
           top: 50%; left: 50%;
-          width: 100vh;
-          height: 100vw;
+          width: calc(100vh + 2px);
+          height: calc(100vw + 2px);
           transform: translate(-50%, -50%) rotate(90deg);
           transform-origin: center center;
           overflow: hidden;
@@ -1678,7 +1678,7 @@ export default function Home() {
         .pulse { animation: pulse 2s ease-in-out infinite; }
       `}</style>
 
-      <div className="app-rotate">
+      <div className={authed && !isPublic ? "app-rotate" : "app-no-rotate"}>
 
         {/* ── STANDBY SCREEN ── */}
         {authed && standby && standbyEnabled && (

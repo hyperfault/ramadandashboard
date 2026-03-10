@@ -1666,6 +1666,76 @@ export default function Home() {
         }
         .settings-value { font-size: 0.8rem; color: ${T.dim}; font-weight: 600; }
 
+        /* ── PUBLIC MOBILE LAYOUT ── */
+        .pub-shell {
+          display: flex; flex-direction: column;
+          width: 100%; height: 100%;
+          color: ${T.text};
+          position: relative; z-index: 1;
+          overflow: hidden;
+        }
+        .pub-topbar {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 14px 16px 10px;
+          border-bottom: 1px solid ${T.glassBorder};
+          flex-shrink: 0;
+          background: ${T.glass};
+          backdrop-filter: ${T.glassBlur};
+          -webkit-backdrop-filter: ${T.glassBlur};
+        }
+        .pub-content {
+          flex: 1; overflow-y: auto; min-height: 0;
+          padding: 14px 14px 8px;
+          display: flex; flex-direction: column; gap: 12px;
+          scrollbar-width: none;
+        }
+        .pub-content::-webkit-scrollbar { display: none; }
+        .pub-section-title {
+          font-size: 0.6rem; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.12em;
+          color: ${T.accent}; margin-bottom: 2px;
+        }
+        .pub-card {
+          background: ${T.glass};
+          backdrop-filter: ${T.glassBlur};
+          -webkit-backdrop-filter: ${T.glassBlur};
+          border: 1px solid ${T.glassBorder};
+          border-radius: 16px;
+          padding: 14px 16px;
+          box-shadow: 0 2px 16px rgba(0,0,0,${isDark ? '0.3' : '0.06'});
+        }
+        .pub-prayer-row {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 8px 0;
+          border-bottom: 1px solid ${T.glassBorder};
+          font-size: 0.88rem;
+        }
+        .pub-prayer-row:last-child { border-bottom: none; }
+        .pub-prayer-name { font-weight: 600; color: ${T.text}; }
+        .pub-prayer-time { color: ${T.dim}; font-variant-numeric: tabular-nums; }
+        .pub-prayer-row.next .pub-prayer-name { color: ${T.accent}; }
+        .pub-prayer-row.next .pub-prayer-time { color: ${T.accent}; font-weight: 700; }
+        .pub-bottomnav {
+          display: flex;
+          border-top: 1px solid ${T.glassBorder};
+          flex-shrink: 0;
+          background: ${T.glass};
+          backdrop-filter: ${T.glassBlur};
+          -webkit-backdrop-filter: ${T.glassBlur};
+        }
+        .pub-navitem {
+          flex: 1; display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          padding: 8px 4px 10px;
+          cursor: pointer; font-size: 0.58rem; font-weight: 600;
+          letter-spacing: 0.04em; text-transform: uppercase;
+          color: ${T.dim}; gap: 3px;
+          transition: color 0.15s;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .pub-navitem.active { color: ${T.accent}; }
+        .pub-navitem .pub-nav-icon { font-size: 1.3rem; line-height: 1; }
+
         /* Scrollbar global */
         ::-webkit-scrollbar { width: 2px; height: 2px; }
         ::-webkit-scrollbar-thumb { background: ${T.border}; border-radius: 2px; }
@@ -1783,7 +1853,249 @@ export default function Home() {
           </div>
         )}
 
-        <div className="shell">
+        {/* ── PUBLIC MOBILE LAYOUT ── */}
+        {isPublic && authed && (
+          <div className="pub-shell fadein">
+            {/* Public Topbar */}
+            <div className="pub-topbar">
+              <div>
+                <div style={{fontSize:'0.65rem', color:T.dim, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.08em'}}>As-salamu alaykum</div>
+                <div style={{fontSize:'1.4rem', fontWeight:700, letterSpacing:'-0.02em', color:T.text, fontVariantNumeric:'tabular-nums'}}>{formatTime(now)}</div>
+                <div style={{fontSize:'0.68rem', color:T.dim}}>{formatDate(now)} {hijriLabel && <span style={{color:T.accent}}>· {hijriLabel}</span>}</div>
+              </div>
+              <div style={{display:'flex', alignItems:'center', gap:'8px'}}>
+                {weather && (
+                  <div style={{display:'flex', alignItems:'center', gap:'4px', background:T.glass, backdropFilter:T.glassBlur, WebkitBackdropFilter:T.glassBlur, border:`1px solid ${T.glassBorder}`, borderRadius:'16px', padding:'4px 10px', fontSize:'0.72rem'}}>
+                    <span>{getWeatherIcon(weather.code)}</span>
+                    <span style={{fontWeight:700, color:T.text}}>{weather.temp}°C</span>
+                  </div>
+                )}
+                <button className="icon-btn" onClick={() => setTheme(t => { const n = t==='dark'?'light':'dark'; try{localStorage.setItem('theme',n);}catch{} return n; })}>{isDark?'☀️':'🌑'}</button>
+              </div>
+            </div>
+
+            {/* Public Content */}
+            <div className="pub-content">
+
+              {activeTab === 'home' && (
+                <>
+                  {/* Prayer times card */}
+                  <div>
+                    <div className="pub-section-title">Prayer Times · Dhaka</div>
+                    <div className="pub-card">
+                      {prayers.map((p, i) => {
+                        const isNext = circle.name === p.name;
+                        return (
+                          <div key={p.name} className={`pub-prayer-row${isNext ? ' next' : ''}`}>
+                            <div className="pub-prayer-name">{isNext ? '▶ ' : ''}{p.name}</div>
+                            <div className="pub-prayer-time">{p.time}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Next prayer countdown */}
+                  {circle.name && (
+                    <div className="pub-card" style={{textAlign:'center', padding:'16px'}}>
+                      <div style={{fontSize:'0.6rem', color:T.dim, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:'4px'}}>Next · {circle.name}</div>
+                      <div style={{fontSize:'2.2rem', fontWeight:200, color:T.accent, fontVariantNumeric:'tabular-nums', letterSpacing:'-0.02em'}}>
+                        {h}:{pad(m)}:{pad(s)}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Daily Ayah */}
+                  <div>
+                    <div className="pub-section-title">Verse of the Day</div>
+                    <div className="pub-card" style={{textAlign:'center'}}>
+                      <div style={{fontFamily:"'Amiri', serif", fontSize:'1.3rem', direction:'rtl', lineHeight:1.8, color:T.text, marginBottom:'8px'}}>{ayah.arabic}</div>
+                      <div style={{fontSize:'0.8rem', fontStyle:'italic', color:T.dim, lineHeight:1.5, marginBottom:'4px'}}>{ayah.translation}</div>
+                      <div style={{fontSize:'0.62rem', color:T.accent, fontWeight:600}}>{ayah.ref}</div>
+                    </div>
+                  </div>
+
+                  {/* Weather card */}
+                  {weather && (
+                    <div>
+                      <div className="pub-section-title">Weather · Dhaka</div>
+                      <div className="pub-card" style={{display:'flex', alignItems:'center', gap:'14px'}}>
+                        <div style={{fontSize:'2.5rem'}}>{getWeatherIcon(weather.code)}</div>
+                        <div>
+                          <div style={{fontSize:'1.8rem', fontWeight:700, color:T.text}}>{weather.temp}°C</div>
+                          <div style={{fontSize:'0.78rem', color:T.dim}}>{getWeatherLabel(weather.code)} · 💧{weather.humidity}% · 💨{weather.wind} km/h</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* AI Chat if enabled */}
+                  {publicAiEnabled && (
+                    <div>
+                      <div className="pub-section-title">Furqan AI</div>
+                      <div className="pub-card" style={{display:'flex', flexDirection:'column', gap:'8px', maxHeight:'300px'}}>
+                        <div style={{flex:1, overflowY:'auto', display:'flex', flexDirection:'column', gap:'6px', maxHeight:'200px'}}>
+                          {messages.map((msg, i) => (
+                            <div key={i} style={{
+                              padding:'8px 12px', borderRadius:'12px', fontSize:'0.82rem', lineHeight:1.5,
+                              alignSelf: msg.role==='user' ? 'flex-end' : 'flex-start',
+                              background: msg.role==='user' ? T.accent : T.glass,
+                              border: msg.role==='user' ? 'none' : `1px solid ${T.glassBorder}`,
+                              color: msg.role==='user' ? '#fff' : T.text,
+                              maxWidth:'85%',
+                            }}>{msg.content}</div>
+                          ))}
+                          {chatLoading && <div style={{padding:'8px 12px', borderRadius:'12px', fontSize:'0.82rem', color:T.dim, fontStyle:'italic'}}>Furqan is thinking...</div>}
+                          <div ref={chatEndRef}/>
+                        </div>
+                        <div style={{display:'flex', gap:'8px', borderTop:`1px solid ${T.glassBorder}`, paddingTop:'8px'}}>
+                          <input
+                            style={{flex:1, background:'transparent', border:`1px solid ${T.glassBorder}`, borderRadius:'20px', padding:'8px 12px', color:T.text, fontSize:'0.82rem', fontFamily:'Inter, sans-serif', outline:'none'}}
+                            placeholder="Ask Furqan..."
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onKeyDown={e => { if(e.key==='Enter') sendMessage(); }}
+                          />
+                          <button onClick={sendMessage} disabled={chatLoading || !input.trim()} style={{background:T.accent, border:'none', borderRadius:'50%', width:'34px', height:'34px', flexShrink:0, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {activeTab === 'quran' && (
+                <div style={{flex:1, minHeight:0}}>
+                  {quranView === 'list' ? (
+                    <>
+                      <div className="pub-section-title">Quran</div>
+                      <input
+                        style={{width:'100%', background:T.glass, backdropFilter:T.glassBlur, border:`1px solid ${T.glassBorder}`, borderRadius:'12px', padding:'10px 14px', color:T.text, fontSize:'0.88rem', fontFamily:'Inter, sans-serif', outline:'none', marginBottom:'10px'}}
+                        placeholder="Search surah..."
+                        value={quranSearch}
+                        onChange={e => setQuranSearch(e.target.value)}
+                      />
+                      <div className="pub-card" style={{padding:0, overflow:'hidden'}}>
+                        {filteredSurahs.map(s => (
+                          <div key={s.number} onClick={() => loadSurah(s)} style={{display:'flex', alignItems:'center', gap:'10px', padding:'10px 14px', borderBottom:`1px solid ${T.glassBorder}`, cursor:'pointer'}}>
+                            <div style={{width:'28px', height:'28px', borderRadius:'8px', background:T.accentLo, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.7rem', fontWeight:700, color:T.accent, flexShrink:0}}>{s.number}</div>
+                            <div style={{flex:1, minWidth:0}}>
+                              <div style={{fontSize:'0.88rem', fontWeight:600, color:T.text}}>{s.englishName}</div>
+                              <div style={{fontSize:'0.65rem', color:T.dim}}>{s.englishNameTranslation} · {s.numberOfAyahs} verses</div>
+                            </div>
+                            <div style={{fontFamily:"'Amiri', serif", fontSize:'1rem', color:T.accent}}>{s.name}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div style={{display:'flex', alignItems:'center', gap:'10px', marginBottom:'10px'}}>
+                        <button onClick={() => setQuranView('list')} style={{background:T.glass, border:`1px solid ${T.glassBorder}`, borderRadius:'10px', padding:'6px 12px', color:T.text, fontSize:'0.78rem', cursor:'pointer', fontFamily:'Inter, sans-serif'}}>← Back</button>
+                        <div style={{fontWeight:700, color:T.text}}>{selSurah?.englishName}</div>
+                        <button onClick={() => recitPlaying ? stopRecitation() : playRecitation(selSurah?.number)} style={{marginLeft:'auto', background:recitPlaying?T.accentLo:T.accent, border:'none', borderRadius:'10px', padding:'6px 12px', color:'#fff', fontSize:'0.78rem', cursor:'pointer', fontFamily:'Inter, sans-serif'}}>
+                          {recitPlaying ? '⏹ Stop' : '▶ Play'}
+                        </button>
+                      </div>
+                      {selSurah?.number !== 1 && selSurah?.number !== 9 && (
+                        <div style={{textAlign:'center', fontFamily:"'Amiri', serif", fontSize:'1.4rem', color:T.accent, marginBottom:'10px'}}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                      )}
+                      {quranLoading ? <div style={{textAlign:'center', color:T.dim, padding:'20px'}}>Loading...</div> : surahVerses.map(v => (
+                        <div key={v.number} className="pub-card" style={{marginBottom:'8px'}}>
+                          <div style={{fontSize:'0.6rem', color:T.accent, fontWeight:700, marginBottom:'6px'}}>Verse {v.number}</div>
+                          <div style={{fontFamily:"'Amiri', serif", fontSize:'1.2rem', direction:'rtl', lineHeight:1.9, color:T.text, marginBottom:'8px'}}>{v.arabic}</div>
+                          <div style={{fontSize:'0.8rem', color:T.dim, lineHeight:1.5}}>{v.english}</div>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'dhikr' && (
+                <>
+                  <div className="pub-section-title">Tasbih Counter</div>
+                  <div className="pub-card" style={{textAlign:'center', display:'flex', flexDirection:'column', alignItems:'center', gap:'14px'}}>
+                    <div style={{fontSize:'0.8rem', fontWeight:700, color:T.accent}}>{tasbeehLabel}</div>
+                    <div style={{fontSize:'3.5rem', fontWeight:200, color:T.text, fontVariantNumeric:'tabular-nums'}}>{tasbeehCount}</div>
+                    <div style={{fontSize:'0.72rem', color:T.dim}}>{tasbeehCount % tasbeehTarget} / {tasbeehTarget}</div>
+                    <button onClick={incrementTasbih} style={{width:'90px', height:'90px', borderRadius:'50%', background:T.accent, border:'none', fontSize:'2rem', cursor:'pointer', boxShadow:`0 4px 20px ${isDark?'rgba(204,34,68,0.4)':'rgba(0,0,0,0.15)'}`, WebkitTapHighlightColor:'transparent'}}>🤲</button>
+                    <button onClick={resetTasbih} style={{background:'transparent', border:`1px solid ${T.glassBorder}`, borderRadius:'8px', padding:'6px 16px', color:T.dim, fontSize:'0.72rem', cursor:'pointer', fontFamily:'Inter, sans-serif'}}>Reset</button>
+                  </div>
+                  <div className="pub-section-title">Hadith of the Day</div>
+                  <div className="pub-card">
+                    <div style={{fontSize:'0.85rem', fontStyle:'italic', color:T.text, lineHeight:1.6, marginBottom:'6px'}}>"{hadith.text}"</div>
+                    <div style={{fontSize:'0.65rem', color:T.accent, fontWeight:600}}>{hadith.source}</div>
+                  </div>
+                </>
+              )}
+
+              {activeTab === 'duas' && (
+                <>
+                  <div className="pub-section-title">Daily Du'as</div>
+                  {DUAS.map((d, i) => (
+                    <div key={i} className="pub-card">
+                      <div style={{fontSize:'0.65rem', fontWeight:700, color:T.accent, marginBottom:'6px', textTransform:'uppercase', letterSpacing:'0.06em'}}>{d.title}</div>
+                      <div style={{fontFamily:"'Amiri', serif", fontSize:'1.1rem', direction:'rtl', lineHeight:1.8, color:T.text, marginBottom:'6px'}}>{d.arabic}</div>
+                      <div style={{fontSize:'0.78rem', color:T.dim, fontStyle:'italic', lineHeight:1.5}}>{d.translation}</div>
+                    </div>
+                  ))}
+                </>
+              )}
+
+              {activeTab === 'settings' && (
+                <>
+                  <div className="pub-section-title">Settings</div>
+                  <div className="pub-card" style={{display:'flex', flexDirection:'column', gap:'14px'}}>
+                    <div>
+                      <div style={{fontSize:'0.72rem', fontWeight:700, color:T.text, marginBottom:'6px'}}>Theme</div>
+                      <div style={{display:'flex', gap:'8px'}}>
+                        {['light','dark'].map(t => (
+                          <button key={t} onClick={() => { setTheme(t); try{localStorage.setItem('theme',t);}catch{} }} style={{flex:1, padding:'8px', borderRadius:'10px', border:`1px solid ${theme===t ? T.accent : T.glassBorder}`, background: theme===t ? T.accentLo : 'transparent', color: theme===t ? T.accent : T.dim, fontSize:'0.78rem', fontWeight:600, cursor:'pointer', fontFamily:'Inter, sans-serif'}}>
+                            {t === 'light' ? '☀️ Light' : '🌑 Dark'}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{fontSize:'0.72rem', fontWeight:700, color:T.text, marginBottom:'6px'}}>AI Assistant</div>
+                      <button onClick={() => { if(!publicAiEnabled) setAiDisclaimer(true); else setPublicAiEnabled(false); }} style={{width:'100%', padding:'9px', borderRadius:'10px', border:`1px solid ${publicAiEnabled ? T.green : T.glassBorder}`, background: publicAiEnabled ? 'rgba(34,197,94,0.1)' : 'transparent', color: publicAiEnabled ? T.green : T.dim, fontSize:'0.78rem', fontWeight:600, cursor:'pointer', fontFamily:'Inter, sans-serif'}}>
+                        {publicAiEnabled ? '✓ Furqan AI Enabled' : 'Enable Furqan AI'}
+                      </button>
+                    </div>
+                    <div style={{paddingTop:'8px', borderTop:`1px solid ${T.glassBorder}`}}>
+                      <button onClick={() => { setAuthed(false); setIsPublic(false); }} style={{width:'100%', padding:'9px', borderRadius:'10px', border:'1px solid rgba(204,34,68,0.3)', background:'rgba(204,34,68,0.08)', color:'#cc2244', fontSize:'0.78rem', fontWeight:600, cursor:'pointer', fontFamily:'Inter, sans-serif'}}>
+                        ← Back to Login
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+
+            </div>
+
+            {/* Public Bottom Nav */}
+            <div className="pub-bottomnav">
+              {[
+                { id:'home',  icon:'🏠', label:'Home'    },
+                { id:'quran', icon:'📖', label:'Quran'   },
+                { id:'dhikr', icon:'📿', label:'Dhikr'   },
+                { id:'duas',  icon:'🤲', label:"Du'as"   },
+                { id:'settings', icon:'⚙️', label:'Settings'},
+              ].map(tab => (
+                <div key={tab.id} className={`pub-navitem${activeTab===tab.id?' active':''}`} onClick={() => { setActiveTab(tab.id); if(tab.id!=='quran') setQuranView('list'); }}>
+                  <span className="pub-nav-icon">{tab.icon}</span>
+                  {tab.label}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── PERSONAL PI LAYOUT ── */}
+        {(!isPublic || !authed) && <div className="shell">
 
           {/* ── TOP BAR ── */}
           <div className="topbar">
@@ -2527,7 +2839,7 @@ export default function Home() {
             ))}
           </div>
 
-        </div>
+        </div>}
 
         {/* AI Disclaimer Modal */}
         {aiDisclaimer && (

@@ -885,7 +885,7 @@ export default function Home() {
     <>
       <Head>
         <title>Islamic Dashboard -- Muntasir</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Color+Emoji&display=swap"
           rel="stylesheet"
@@ -897,11 +897,14 @@ export default function Home() {
 
         html, body {
           width: 100%; height: 100%;
+          min-height: 100vh;
           background: #000;
           overflow: hidden;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           -webkit-font-smoothing: antialiased;
+          padding: 0; margin: 0;
         }
+        * { -webkit-tap-highlight-color: transparent; }
 
         /* Rotate wrapper -- landscape layout on portrait screen */
         .app-rotate {
@@ -909,8 +912,6 @@ export default function Home() {
           top: 50%; left: 50%;
           width: 100vh;
           height: 100vw;
-          min-width: 100vh;
-          min-height: 100vw;
           transform: translate(-50%, -50%) rotate(90deg);
           transform-origin: center center;
           overflow: hidden;
@@ -1058,6 +1059,9 @@ export default function Home() {
           grid-template-columns: 1fr 260px;
           height: 100%;
           gap: 0;
+        }
+        .home-grid.chat-closed {
+          grid-template-columns: 1fr;
         }
 
         .home-left {
@@ -1863,7 +1867,7 @@ export default function Home() {
 
             {/* HOME */}
             {activeTab === 'home' && (
-              <div className="home-grid fadein">
+              <div className={`home-grid fadein${chatOpen ? '' : ' chat-closed'}`}>
 
                 {/* LEFT */}
                 <div className="home-left">
@@ -1944,7 +1948,7 @@ export default function Home() {
                 </div>
 
                 {/* RIGHT = CHAT */}
-                <div className="home-right">
+                {chatOpen && (!isPublic || publicAiEnabled) && <div className="home-right">
                   <div className="chat-header">
                     <div className="chat-avatar">N</div>
                     <div>
@@ -1974,7 +1978,7 @@ export default function Home() {
                       <svg width="14" height="14" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
                     </button>
                   </div>
-                </div>
+                </div>}
 
               </div>
             )}
